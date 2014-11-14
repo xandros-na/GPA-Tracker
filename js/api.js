@@ -52,32 +52,30 @@ function get_courses(term) {
     return Object.keys(courses);
 }
 
-function add_assessment(term, course, name, weight) {
+function add_assessment(term, course, name) {
     if (_is_undefined(localStorage[term])) {
         return 'no such term';
     }
 
     var courses = JSON.parse(localStorage[term]);
-    if (courses == null || !(course in courses)) {
+    if (!(course in courses)) {
         return 'no such course';
     }
 
-    var mark_info = {};
-    mark_info['weight'] = weight;
-    if (courses[course] == null) { // no assessments
-        //mark_info['mark'] = mark;
-        var assessment = {};
-        assessment[name] = mark_info;
-        courses[course] = assessment;
+    var details = courses[course];
+    if (details['details'] == null) { // first assessment
+        var new_details = {};
+        new_details[name] = null;
+        details['details'] = new_details;
+        courses[course] = details;
         localStorage[term] = JSON.stringify(courses);
-        return 'success';
     }
 
-    var assessments = courses[course]; // get assessments of a course
-    assessments[name] = mark_info;
-    courses[course] = assessments;
+    var existing_details = details['details'];
+    existing_details[name] = null;
+    details['details'] = existing_details;
+    courses[course] = details;
     localStorage[term] = JSON.stringify(courses);
-    return 'success';
 }
 
 function get_assessments(term, course) {
@@ -86,10 +84,11 @@ function get_assessments(term, course) {
     }
 
     var courses = JSON.parse(localStorage[term]);
-    if (courses == null || !(course in courses)) {
+    if (!(course in courses)) {
         return 'no such course';
     }
 
-    var assessments = courses[course];
-    return JSON.stringify(assessments);
+    var details = courses[course];
+    var assessments = details['details'];
+    return JSON.stringify(Object.keys(assessments));
 }
