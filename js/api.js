@@ -18,15 +18,19 @@ function add_term(term) {
     return 'term already exists';
 }
 
-function add_course(term, name) {
+function add_course(term, name, goal) {
     if (_is_undefined(localStorage[term])) {
         return 'no such term';
     }
 
     var courses = JSON.parse(localStorage[term]);
+    var details = {};
+    details['goal'] = goal;
+    details['distance'] = 0;
+    details['details'] = null;
     if (courses == null) { // no courses
         var new_course = {};
-        new_course[name] = null;
+        new_course[name] = details;
         localStorage[term] = JSON.stringify(new_course);
         return 'success';
     }
@@ -35,7 +39,7 @@ function add_course(term, name) {
         return 'course exists';
     }
 
-    courses[name] = null;
+    courses[name] = details;
     localStorage[term] = JSON.stringify(courses);
     return 'success';
 }

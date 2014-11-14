@@ -19,6 +19,8 @@
     <br>
     Term:<input id="term" type="text" name="term">
     <br>
+    Goal:<input id="goal" type="text" name="term">
+    <br>
     <input type="button" name="get course" value="get" onclick="get_c()">
 
     <p>Assessments:</p>
@@ -55,7 +57,8 @@
     function add_c() {
         var term = String($('#term').val());
         var c = String($('#course').val());
-        console.log(add_course(term, c));
+        var g = String($('#goal').val());
+        console.log(add_course(term, c, g));
     }
 
     function add_a() {
