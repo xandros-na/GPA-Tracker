@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<form>
+    <p>Terms:</p>
+    Term:(example 2014 fall)<input id="new" type="text" name="term">
+    <input type="button" name="add term" value="add" onclick="add_t()">
+    <br>
+    <input type="button" name="get terms" value="get" onclick="get_t()">
+
+    <p>Courses:</p>
+    Course Name:<input id="course" type="text" name="term">
+    <input type="button" name="add course" value="add" onclick="add_c()">
+    <br>
+    Term:<input id="term" type="text" name="term">
+    <br>
+    <input type="button" name="get course" value="get" onclick="get_c()">
+
+    <p>Assessments:</p>
+    Assessment name: <input id="as_name" type="text" name="as_name">
+    <br>
+    Term: <input id="t" type="text" name="term">
+    <br>
+    Course: <input id="c" type="text" name="course">
+    <br>
+    Weight: <input id="w" type="text" name="weight">
+    <br>
+    <input type="button" name="add" value="add" onclick="add_a()">
+    <br>
+    <input type="button" name="add" value="get" onclick="get_a()">
+</form>
+<script src="js/api.js"></script>
+<script type="text/javascript">
+    function add_t() {
+        var term = String($('#new').val());
+        add_term(term);
+    }
+
+    function get_t() {
+        var terms = get_terms();
+        console.log(terms);
+    }
+
+    function get_c() {
+        var term = String($('#term').val());
+        var courses = get_courses(term);
+        console.log(courses);
+    }
+
+    function add_c() {
+        var term = String($('#term').val());
+        var c = String($('#course').val());
+        console.log(add_course(term, c));
+    }
+
+    function add_a() {
+        var t = String($('#t').val());
+        var c = String($('#c').val());
+        var a = String($('#as_name').val());
+        var w = String($('#w').val());
+
+        console.log(add_assessment(t,c,a,w));
+    }
+
+    function get_a() {
+        var t = String($('#t').val());
+        var c = String($('#c').val());
+
+        console.log(get_assessments(t,c));
+    }
+</script>
+</body>
+</html>
