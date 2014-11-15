@@ -133,3 +133,47 @@ function get_assessments(term, course) {
     var assessments = details['details'];
     return JSON.stringify(Object.keys(assessments));
 }
+
+function add_mark(term, course, assessment, name, mark) {
+    console.log('called');
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
+        return 'no such term';
+    }
+
+    var courses = terms[term];
+    if (!(course in courses)) {
+        return 'no such course';
+    }
+
+    var assessments = courses[course];
+    var as_names = assessments['details']; // {'quizzes' : Object}
+    if (!(assessment in as_names)) {
+        return 'no such assessment';
+    }
+
+    var as_details = as_names[assessment]; // {'quiz1': 0} or null
+    if (as_details == null) {
+        var new_a = {};
+        new_a[name] = mark;
+        as_details = new_a;
+        as_names[assessment] = as_details;
+        assessments['details'] = as_names;
+        courses[course] = assessments;
+        terms[term] = courses;
+        localStorage['gpa_user'] = JSON.stringify(terms);
+        return 'success';
+    }
+
+    as_details[name] = mark;
+    as_names[assessment] = as_details;
+    assessments['details'] = as_names;
+    courses[course] = assessments;
+    terms[term] = courses;
+    localStorage['gpa_user'] = JSON.stringify(terms);
+    return 'success';
+}

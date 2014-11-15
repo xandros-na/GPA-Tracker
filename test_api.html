@@ -34,6 +34,12 @@
     <br>
     <input type="button" name="add" value="add" onclick="add_a()">
     <br>
+    Mark: <input id="m" type="text" name="weight">
+    <br>
+    Assessment name (Quiz1): <input id="as" type="text" name="as_name">
+    <br>
+    <input type="button" name="add" value="add mark" onclick="add_m()">
+    <br>
     <input type="button" name="add" value="get" onclick="get_a()">
 </form>
 <script src="js/api.js"></script>
@@ -67,14 +73,24 @@
         var a = String($('#as_name').val());
         var w = String($('#w').val());
 
-        console.log(add_assessment(t,c,a));
+        console.log(add_assessment(t, c, a));
+    }
+
+    function add_m() {
+        var t = String($('#t').val());
+        var c = String($('#c').val());
+        var a = String($('#as_name').val());
+        var m = String($('#m').val());
+        var as = String($('#as').val());
+
+        console.log(add_mark(t, c, a, as, m));
     }
 
     function get_a() {
         var t = String($('#t').val());
         var c = String($('#c').val());
 
-        console.log(get_assessments(t,c));
+        console.log(get_assessments(t, c));
     }
 </script>
 </body>
