@@ -155,29 +155,33 @@ function add_mark(term, course, assessment, name, mark) {
         return 'no such course';
     }
 
-    var assessments = courses[course];
-    var as_names = assessments['details']; // {'quizzes' : Object}
-    if (!(assessment in as_names)) {
+    var course_info = courses[course]; //{'goal': 0, 'distance': 0, 'details':null or Object}
+    var assessments = course_info['details']; //{null or 'quizzes': Object}
+
+    if (assessments == null || !(assessment in assessments)) {
         return 'no such assessment';
     }
 
-    var as_details = as_names[assessment]; // {'quiz1': 0} or null
-    if (as_details == null) {
-        var new_a = {};
-        new_a[name] = mark;
-        as_details = new_a;
-        as_names[assessment] = as_details;
-        assessments['details'] = as_names;
-        courses[course] = assessments;
+    var as_details = assessments[assessment];
+    var list = as_details['list'];
+    if (list == null) { // first mark
+        var new_as = {};
+        new_as[name] = mark;
+        list = new_as;
+        as_details['list'] = list;
+        assessments[assessment] = as_details;
+        course_info['details'] = assessments;
+        courses[course] = course_info;
         terms[term] = courses;
         localStorage['gpa_user'] = JSON.stringify(terms);
         return 'success';
     }
 
-    as_details[name] = mark;
-    as_names[assessment] = as_details;
-    assessments['details'] = as_names;
-    courses[course] = assessments;
+    list[name] = mark;
+    as_details['list'] = list;
+    assessments[assessment] = as_details;
+    course_info['details'] = assessments;
+    courses[course] = course_info;
     terms[term] = courses;
     localStorage['gpa_user'] = JSON.stringify(terms);
     return 'success';
