@@ -79,7 +79,7 @@ function get_courses(term) {
     return Object.keys(courses);
 }
 
-function add_assessment(term, course, name) {
+function add_assessment(term, course, name, weight) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
     }
@@ -94,21 +94,26 @@ function add_assessment(term, course, name) {
         return 'no such course';
     }
 
-    var details = courses[course];
-    if (details['details'] == null) { // first assessment
-        var new_details = {};
-        new_details[name] = null;
-        details['details'] = new_details;
-        courses[course] = details;
+    var course_info = courses[course]; //{'goal': 0, 'distance': 0, 'details':null or Object}
+    var assessments = course_info['details']; //{null or 'quizzes': Object}
+
+    var as_details = {};
+    as_details['weight'] = weight;
+    as_details['overall'] = 0;
+    as_details['list'] = null;
+    if (assessments == null) { // first assessment category
+        var replace_null = {};
+        replace_null[name] = as_details;
+        course_info['details'] = replace_null;
+        courses[course] = course_info;
         terms[term] = courses;
         localStorage['gpa_user'] = JSON.stringify(terms);
         return 'success';
     }
 
-    var existing_details = details['details'];
-    existing_details[name] = null;
-    details['details'] = existing_details;
-    courses[course] = details;
+    assessments[name] = as_details;
+    course_info['details'] = assessments;
+    courses[course] = course_info;
     terms[term] = courses;
     localStorage['gpa_user'] = JSON.stringify(terms);
     return 'success';
@@ -129,8 +134,8 @@ function get_assessments(term, course) {
         return 'no such course';
     }
 
-    var details = courses[course];
-    var assessments = details['details'];
+    var course_info = courses[course];
+    var assessments = course_info['details'];
     return JSON.stringify(Object.keys(assessments));
 }
 
