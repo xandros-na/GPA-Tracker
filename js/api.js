@@ -7,48 +7,75 @@ function _is_undefined(object) {
 }
 
 function get_terms() {
-    return Object.keys(localStorage);
+    var terms = JSON.parse(localStorage['gpa_user']);
+    return Object.keys(terms);
 }
 
 function add_term(term) {
-    if (_is_undefined(localStorage[term])) { //new term
-        localStorage[term] = JSON.stringify(null);
+    if (_is_undefined(localStorage['gpa_user'])) { //new term
+        localStorage['gpa_user'] = null;
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (terms == null) {
+        var new_term = {};
+        new_term[term] = null;
+        localStorage['gpa_user'] = JSON.stringify(new_term);
         return 'success';
     }
-    return 'term already exists';
+
+    if (term in terms) {
+        return 'term already exists';
+    }
+
+    terms[term] = null;
+    localStorage['gpa_user'] = JSON.stringify(terms);
+    return 'success';
 }
 
 function add_course(term, name, goal) {
-    if (_is_undefined(localStorage[term])) {
+    if(_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
         return 'no such term';
     }
 
-    var courses = JSON.parse(localStorage[term]);
     var details = {};
     details['goal'] = goal;
     details['distance'] = 0;
     details['details'] = null;
-    if (courses == null) { // no courses
+    var courses = terms[term];
+    if (courses == null) {
         var new_course = {};
         new_course[name] = details;
-        localStorage[term] = JSON.stringify(new_course);
+        courses = new_course;
+        terms[term] = courses;
+        localStorage['gpa_user'] = JSON.stringify(terms);
         return 'success';
     }
 
-    if (name in courses) {
-        return 'course exists';
+    if(name in courses) {
+        return 'name exists';
     }
 
     courses[name] = details;
-    localStorage[term] = JSON.stringify(courses);
+    terms[term] = courses;
+    localStorage['gpa_user'] = JSON.stringify(terms);
     return 'success';
 }
 
 function get_courses(term) {
-    if (_is_undefined(localStorage[term])) {
+        if(_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
         return 'no such term';
     }
-    var courses = JSON.parse(localStorage[term]);
+    var courses = terms[term];
     return Object.keys(courses);
 }
 
