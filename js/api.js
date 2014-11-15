@@ -34,7 +34,7 @@ function add_term(term) {
 }
 
 function add_course(term, name, goal) {
-    if(_is_undefined(localStorage['gpa_user'])) {
+    if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
     }
 
@@ -57,7 +57,7 @@ function add_course(term, name, goal) {
         return 'success';
     }
 
-    if(name in courses) {
+    if (name in courses) {
         return 'name exists';
     }
 
@@ -68,7 +68,7 @@ function add_course(term, name, goal) {
 }
 
 function get_courses(term) {
-        if(_is_undefined(localStorage['gpa_user'])) {
+    if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
     }
     var terms = JSON.parse(localStorage['gpa_user']);
@@ -80,11 +80,16 @@ function get_courses(term) {
 }
 
 function add_assessment(term, course, name) {
-    if (_is_undefined(localStorage[term])) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
         return 'no such term';
     }
 
-    var courses = JSON.parse(localStorage[term]);
+    var courses = terms[term];
     if (!(course in courses)) {
         return 'no such course';
     }
@@ -95,22 +100,31 @@ function add_assessment(term, course, name) {
         new_details[name] = null;
         details['details'] = new_details;
         courses[course] = details;
-        localStorage[term] = JSON.stringify(courses);
+        terms[term] = courses;
+        localStorage['gpa_user'] = JSON.stringify(terms);
+        return 'success';
     }
 
     var existing_details = details['details'];
     existing_details[name] = null;
     details['details'] = existing_details;
     courses[course] = details;
-    localStorage[term] = JSON.stringify(courses);
+    terms[term] = courses;
+    localStorage['gpa_user'] = JSON.stringify(terms);
+    return 'success';
 }
 
 function get_assessments(term, course) {
-    if (_is_undefined(localStorage[term])) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
         return 'no such term';
     }
 
-    var courses = JSON.parse(localStorage[term]);
+    var courses = terms[term];
     if (!(course in courses)) {
         return 'no such course';
     }
