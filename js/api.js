@@ -39,7 +39,7 @@ function delete_term(term) {
     }
 
     var terms = JSON.parse(localStorage['gpa_user']);
-    if (terms == null) {
+    if ((terms == null) || !(term in terms)) {
         return 'no terms';
     }
     delete terms[term];
@@ -97,6 +97,33 @@ function get_courses(term) {
     }
     var courses = terms[term];
     return Object.keys(courses);
+}
+
+function delete_course(term, course) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
+        return 'no such term';
+    }
+
+    var courses = terms[term];
+    if ((courses == null) || !(course in courses))  {
+        return 'no such course';
+    }
+
+    delete courses[course];
+    var c_keys = Object.keys(courses);
+    if (c_keys.length == 0) {
+        courses = null;
+        terms[term] = courses;
+        localStorage['gpa_user'] = JSON.stringify(terms);
+        return 'made null';
+    }
+    localStorage['gpa_user'] = JSON.stringify(terms);
+    return 'course deleted';
 }
 
 function add_assessment(term, course, name, weight) {

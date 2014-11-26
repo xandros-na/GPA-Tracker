@@ -23,6 +23,7 @@
     Goal:<input id="goal" type="text" name="term">
     <br>
     <input type="button" name="get course" value="get" onclick="get_c()">
+    <input type="button" name="delete terms" value="delete" onclick="del_c()">
 
     <p>Assessments:</p>
     Assessment name: <input id="as_name" type="text" name="as_name">
@@ -97,6 +98,12 @@
     function del_t() {
         var term = String($('#new').val());
         console.log(delete_term(term));
+    }
+
+    function del_c() {
+        var term = String($('#term').val());
+        var c = String($('#course').val());
+        console.log(delete_course(term, c));
     }
 </script>
 </body>
