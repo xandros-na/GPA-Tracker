@@ -172,7 +172,7 @@ function add_mark(term, course, assessment, name, mark) {
         as_details['overall'] = mark; // update overall mark
         assessments[assessment] = as_details;
         course_info['details'] = assessments;
-        course_info['distance'] = _calc_distance(as_details, course_info);
+        course_info['distance'] = _calc_distance(assessments, course_info);
         courses[course] = course_info;
         terms[term] = courses;
         localStorage['gpa_user'] = JSON.stringify(terms);
@@ -185,7 +185,7 @@ function add_mark(term, course, assessment, name, mark) {
     as_details['overall'] = average;
     assessments[assessment] = as_details;
     course_info['details'] = assessments;
-    course_info['distance'] = _calc_distance(as_details, course_info);
+    course_info['distance'] = _calc_distance(assessments, course_info);
     courses[course] = course_info;
     terms[term] = courses;
     localStorage['gpa_user'] = JSON.stringify(terms);
@@ -201,8 +201,15 @@ function _update_overall(list) {
     return total / keys.length;
 }
 
-function _calc_distance(as_details, course_info) {
-    var pct_weight = parseFloat(as_details['weight']) / 100;
-    console.log(course_info['goal'], as_details['overall'], pct_weight);
-    return parseFloat(course_info['goal']) - (parseFloat(as_details['overall']) * pct_weight);
+function _calc_distance(assessments, course_info) {
+    var as_names = Object.keys(assessments);
+    var pct = 0;
+    console.log('as names', as_names);
+    for (var i=0; i<as_names.length; i++) {
+        var as_marks = assessments[as_names[i]];
+        console.log('weight', as_marks['weight'], 'overall', as_marks['overall']);
+        var pct_weight = parseFloat(as_marks['weight']) / 100;
+        pct = pct + pct_weight * parseFloat(as_marks['overall']);
+    }
+    return parseFloat(course_info['goal']) - pct;
 }
