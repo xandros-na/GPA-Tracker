@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		
+		<link rel="stylesheet" src="css/bootstrap-theme.min.css">
+		<link rel="stylesheet" src="css/bootsrap.min.css">
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<link href="css/signin.css" rel="stylesheet">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+		
+	</head>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">GPA Tracker App</a>
+    </div>
+    <div>
+      
+    </div>
+</nav>
+  
+  
+<div class="container">
+	
+	<h2>Grades <a href="#">+</a></h2> 
+	
+	
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#Quizzes" aria-expanded="false" aria-controls="Quizzes">
+          Quizzes
+        </a>
+      </h4>
+    </div>
+	
+    <div id="Quizzes" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingTwo">
+      <div class="list-group">
+          <p> quiz 1</p>
+      </div>
+	  <div class="list-group">
+          <p> quiz 2</p>
+      </div>
+	  <div class="list-group">
+          <p> quiz 3</p>
+      </div>
+	  
+	  <div class="list-group">
+          <!-- Button trigger modal -->
+			 <div class="panel-footer" >
+				<a data-toggle="modal" data-target="#myModal"> Add +</a>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">Add Assessment</h4>
+				  </div>
+				  <div class="modal-body">
+					<input class="form-control" placeholder="Name of assessment" required autofocus>
+					<br></br>
+					<input class="form-control" placeholder="Grade" required>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary">Add + </button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+      </div>
+	  
+    </div>
+	
+  </div>
+ </div>
+    
+      
+
+   
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+  </html>
