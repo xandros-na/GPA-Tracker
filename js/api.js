@@ -169,6 +169,7 @@ function add_mark(term, course, assessment, name, mark) {
         new_as[name] = mark;
         list = new_as;
         as_details['list'] = list;
+        as_details['overall'] = mark; // update overall mark
         assessments[assessment] = as_details;
         course_info['details'] = assessments;
         courses[course] = course_info;
@@ -179,10 +180,21 @@ function add_mark(term, course, assessment, name, mark) {
 
     list[name] = mark;
     as_details['list'] = list;
+    var average = _update_overall(list); // update over all mark
+    as_details['overall'] = average;
     assessments[assessment] = as_details;
     course_info['details'] = assessments;
     courses[course] = course_info;
     terms[term] = courses;
     localStorage['gpa_user'] = JSON.stringify(terms);
     return 'success';
+}
+
+function _update_overall(list) {
+    var keys = Object.keys(list);
+    var total = 0;
+    for(var i=0; i<keys.length; i++) {
+        total += parseInt(list[keys[i]]);
+    }
+    return total / keys.length;
 }
