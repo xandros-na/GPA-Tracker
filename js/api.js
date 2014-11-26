@@ -110,7 +110,7 @@ function delete_course(term, course) {
     }
 
     var courses = terms[term];
-    if ((courses == null) || !(course in courses))  {
+    if ((courses == null) || !(course in courses)) {
         return 'no such course';
     }
 
@@ -186,6 +186,44 @@ function get_assessments(term, course) {
     return JSON.stringify(Object.keys(assessments));
 }
 
+function delete_assessment(term, course, assessment) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
+        return 'no such term';
+    }
+
+    var courses = terms[term];
+    if ((courses == null) || !(course in courses)) {
+        return 'no such course';
+    }
+
+    var course_info = courses[course];
+    var assessments = course_info['details'];
+    if ((assessments == null) || !(assessment in assessments)) {
+        return 'no such assessment';
+    }
+
+    delete assessments[assessment];
+    var a_keys = Object.keys(assessments);
+    if (a_keys.length == 0) {
+        assessments = null;
+        course_info['details'] = assessments;
+        courses[course] = course_info;
+        terms[term] = courses;
+        localStorage['gpa_user'] = JSON.stringify(terms);
+        return 'made null';
+    }
+    course_info['details'] = assessments;
+    courses[course] = course_info;
+    terms[term] = courses;
+    localStorage['gpa_user'] = JSON.stringify(terms);
+    return 'deleted';
+}
+
 function add_mark(term, course, assessment, name, mark) {
     console.log('called');
     if (_is_undefined(localStorage['gpa_user'])) {
@@ -242,7 +280,7 @@ function add_mark(term, course, assessment, name, mark) {
 function _update_overall(list) {
     var keys = Object.keys(list);
     var total = 0;
-    for(var i=0; i<keys.length; i++) {
+    for (var i = 0; i < keys.length; i++) {
         total += parseFloat(list[keys[i]]);
     }
     return total / keys.length;
@@ -252,7 +290,7 @@ function _calc_distance(assessments, course_info) {
     var as_names = Object.keys(assessments);
     var pct = 0;
     console.log('as names', as_names);
-    for (var i=0; i<as_names.length; i++) {
+    for (var i = 0; i < as_names.length; i++) {
         var as_marks = assessments[as_names[i]];
         console.log('weight', as_marks['weight'], 'overall', as_marks['overall']);
         var pct_weight = parseFloat(as_marks['weight']) / 100;

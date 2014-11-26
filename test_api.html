@@ -35,6 +35,7 @@
     Weight: <input id="w" type="text" name="weight">
     <br>
     <input type="button" name="add" value="add" onclick="add_a()">
+    <input type="button" name="delete terms" value="delete asm" onclick="del_as()">
     <br>
     Mark: <input id="m" type="text" name="weight">
     <br>
@@ -104,6 +105,14 @@
         var term = String($('#term').val());
         var c = String($('#course').val());
         console.log(delete_course(term, c));
+    }
+
+    function del_as() {
+        var t = String($('#t').val());
+        var c = String($('#c').val());
+        var a = String($('#as_name').val());
+
+        console.log(delete_assessment(t,c,a));
     }
 </script>
 </body>
