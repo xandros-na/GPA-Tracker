@@ -12,6 +12,7 @@
     <input type="button" name="add term" value="add" onclick="add_t()">
     <br>
     <input type="button" name="get terms" value="get" onclick="get_t()">
+    <input type="button" name="delete terms" value="delete" onclick="del_t()">
 
     <p>Courses:</p>
     Course Name:<input id="course" type="text" name="term">
@@ -91,6 +92,11 @@
         var c = String($('#c').val());
 
         console.log(get_assessments(t, c));
+    }
+
+    function del_t() {
+        var term = String($('#new').val());
+        console.log(delete_term(term));
     }
 </script>
 </body>

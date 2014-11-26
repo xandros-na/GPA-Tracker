@@ -33,6 +33,26 @@ function add_term(term) {
     return 'success';
 }
 
+function delete_term(term) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (terms == null) {
+        return 'no terms';
+    }
+    delete terms[term];
+
+    var t_keys = Object.keys(terms);
+    if (t_keys.length == 0) { // set to null so add_term(term) will work properly
+        localStorage['gpa_user'] = null;
+        return 'made null';
+    }
+    localStorage['gpa_user'] = JSON.stringify(terms);
+    return 'deleted';
+}
+
 function add_course(term, name, goal) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
