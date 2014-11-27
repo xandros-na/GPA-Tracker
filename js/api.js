@@ -158,6 +158,12 @@ function edit_course(term, course, name, goal) {
         var contents = courses[course];
         delete courses[course];
         contents['goal'] = goal;
+        var assessments = contents['details'];
+        if (assessments != null) {
+            contents['distance'] = _calc_distance(assessments, contents);
+        } else {
+            contents['distance'] = goal;
+        }
         courses[name] = contents;
         terms[term] = courses;
         localStorage['gpa_user'] = JSON.stringify(terms);
@@ -252,7 +258,7 @@ function delete_assessment(term, course, assessment) {
     if (a_keys.length == 0) {
         assessments = null;
         course_info['details'] = assessments;
-        course_info['distance'] = 0;
+        course_info['distance'] = course_info['goal'];
         courses[course] = course_info;
         terms[term] = courses;
         localStorage['gpa_user'] = JSON.stringify(terms);
