@@ -7,55 +7,58 @@
 </head>
 <body>
 <form>
-    <p>Terms:</p>
-    Term:(example 2014 fall)<input id="new" type="text" name="term">
+    <h3>Terms:</h3>
+    1. Term:(example 2014 fall)<input id="new" type="text" name="term">
     <input type="button" name="add term" value="add" onclick="add_t()">
-    <br>
-    Edit Term:(example 2014 fall)<input id="edit_t" type="text" name="term">
-    <br>
     <input type="button" name="get terms" value="get" onclick="get_t()">
     <input type="button" name="delete terms" value="delete" onclick="del_t()">
+    <br><br>
+    2. Edit Term:(new term name)<input id="edit_t" type="text" name="term">
     <input type="button" name="delete terms" value="edit" onclick="edit_tr()">
+    <span>input 1 required</span>
+    <br><br>
 
-    <p>Courses:</p>
-    Course Name:<input id="course" type="text" name="term">
+    <h3>Courses:</h3>
+    3. Course Name:<input id="course" type="text" name="term">
+    <br><br>
+    4. Term:<input id="term" type="text" name="term">
+    <br><br>
+    5. Goal:<input id="goal" type="text" name="term">
+    <br><br>
     <input type="button" name="add course" value="add" onclick="add_c()">
-    <br>
-    Term:<input id="term" type="text" name="term">
-    <br>
-    Goal:<input id="goal" type="text" name="term">
-    <br>
-    New Course: <input id="edit_c" type="text" name="course">
-    <br>
     <input type="button" name="get course" value="get" onclick="get_c()">
     <input type="button" name="delete terms" value="delete" onclick="del_c()">
+    <br><br><br>
+    6. Edit Course(new course name): <input id="edit_c" type="text" name="course">
     <input type="button" name="delete terms" value="edit" onclick="edit_co()">
+    <span>input 3, 4 required (change value of 5 if you want to edit goal)</span>
+    <br><br>
 
-    <p>Assessments:</p>
-    Assessment name: <input id="as_name" type="text" name="as_name">
-    <br>
-    Term: <input id="t" type="text" name="term">
-    <br>
-    Course: <input id="c" type="text" name="course">
-    <br>
-    Weight: <input id="w" type="text" name="weight">
-    <br>
-    <input type="button" name="add" value="edit" onclick="edit_we()">
+    <h3>Assessments:</h3>
+    7. Assessment name: <input id="as_name" type="text" name="as_name">
+    <br><br>
+    8. Term: <input id="t" type="text" name="term">
+    <br><br>
+    9. Course: <input id="c" type="text" name="course">
+    <br><br>
+    10. Weight: <input id="w" type="text" name="weight">
+    <br><br>
     <input type="button" name="add" value="add" onclick="add_a()">
-    <input type="button" name="delete terms" value="delete asm" onclick="del_as()">
-    <br>
-    Mark: <input id="m" type="text" name="weight">
-    <br>
-    New Mark: <input id="edit_m" type="text" name="weight">
-    <br>
-    <input type="button" name="add" value="edit" onclick="edit_ma()">
-    <br>
-    Assessment name (Quiz1): <input id="as" type="text" name="as_name">
-    <br>
+    <input type="button" name="delete terms" value="delete assessment" onclick="del_as()">
+    <br><br>
+    <input type="button" name="add" value="edit" onclick="edit_we()">
+    <span>input 7, 8, 9, 10 required for edit weight</span>
+    <br><br><br>
+    11. Mark: <input id="m" type="text" name="weight">
+    <br><br>
+    12. Assessment name (Quiz1): <input id="as" type="text" name="as_name">
+    <br><br>
     <input type="button" name="add" value="add mark" onclick="add_m()">
-    <br>
     <input type="button" name="add" value="get" onclick="get_a()">
     <input type="button" name="delete terms" value="delete mark" onclick="del_m()">
+    <br><br>
+    <input type="button" name="add" value="edit" onclick="edit_ma()">
+    <span>input 7, 8, 9, 11, 12 for edit mark</span>
 </form>
 <script src="js/api.js"></script>
 <script type="text/javascript">
