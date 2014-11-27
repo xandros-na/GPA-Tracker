@@ -11,8 +11,11 @@
     Term:(example 2014 fall)<input id="new" type="text" name="term">
     <input type="button" name="add term" value="add" onclick="add_t()">
     <br>
+    Edit Term:(example 2014 fall)<input id="edit_t" type="text" name="term">
+    <br>
     <input type="button" name="get terms" value="get" onclick="get_t()">
     <input type="button" name="delete terms" value="delete" onclick="del_t()">
+    <input type="button" name="delete terms" value="edit" onclick="edit_tr()">
 
     <p>Courses:</p>
     Course Name:<input id="course" type="text" name="term">
@@ -48,6 +51,12 @@
 </form>
 <script src="js/api.js"></script>
 <script type="text/javascript">
+    function edit_tr() {
+        var term = String($('#new').val());
+        var n = String($('#edit_t').val());
+        console.log(edit_term(term, n));
+    }
+
     function add_t() {
         var term = String($('#new').val());
         add_term(term);

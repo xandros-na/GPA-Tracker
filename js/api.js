@@ -33,6 +33,22 @@ function add_term(term) {
     return 'success';
 }
 
+function edit_term(term, name) {
+    if (_is_undefined(localStorage['gpa_user'])) { //new term
+        localStorage['gpa_user'] = null;
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (term in terms) {
+        var contents = terms[term];
+        delete terms[term];
+        terms[name] = contents;
+        localStorage['gpa_user'] = JSON.stringify(terms);
+        return 'edited';
+    }
+    return 'no such term';
+}
+
 function delete_term(term) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
