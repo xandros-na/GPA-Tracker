@@ -46,6 +46,10 @@
     <br>
     Mark: <input id="m" type="text" name="weight">
     <br>
+    New Mark: <input id="edit_m" type="text" name="weight">
+    <br>
+    <input type="button" name="add" value="edit" onclick="edit_ma()">
+    <br>
     Assessment name (Quiz1): <input id="as" type="text" name="as_name">
     <br>
     <input type="button" name="add" value="add mark" onclick="add_m()">
@@ -55,6 +59,16 @@
 </form>
 <script src="js/api.js"></script>
 <script type="text/javascript">
+    function edit_ma() {
+        var t = String($('#t').val());
+        var c = String($('#c').val());
+        var a = String($('#as_name').val());
+        var m = String($('#m').val());
+        var as = String($('#as').val());
+
+        console.log(edit_mark(t, c, a, as, m));
+    }
+
     function edit_we() {
         var t = String($('#t').val());
         var c = String($('#c').val());

@@ -408,6 +408,46 @@ function edit_weight(term, course, assessment, weight) {
     return 'edited';
 }
 
+function edit_mark(term, course, assessment, as_name, mark) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
+        return 'no such term';
+    }
+
+    var courses = terms[term];
+    if (!(course in courses)) {
+        return 'no such course';
+    }
+
+    var course_info = courses[course]; //{'goal': 0, 'distance': 0, 'details':null or Object}
+    var assessments = course_info['details']; //{null or 'quizzes': Object}
+
+    if (assessments == null || !(assessment in assessments)) {
+        return 'no such assessment';
+    }
+
+    var as_details = assessments[assessment];
+    if (as_details['list'] == null) {
+        return 'nothing to edit';
+    }
+
+    var contents = as_details['list'];
+    contents[as_name] = mark;
+    as_details['list'] = contents;
+    as_details['overall'] = _update_overall(contents); // update over all mark;
+    assessments[assessment] = as_details;
+    course_info['details'] = assessments;
+    course_info['distance'] = _calc_distance(assessments, course_info);
+    courses[course] = course_info;
+    terms[term] = courses;
+    localStorage['gpa_user'] = JSON.stringify(terms);
+    return 'edited';
+}
+
 function _update_overall(list) {
     var keys = Object.keys(list);
     var total = 0;
