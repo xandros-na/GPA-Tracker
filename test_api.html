@@ -40,6 +40,7 @@
     <br>
     Weight: <input id="w" type="text" name="weight">
     <br>
+    <input type="button" name="add" value="edit" onclick="edit_we()">
     <input type="button" name="add" value="add" onclick="add_a()">
     <input type="button" name="delete terms" value="delete asm" onclick="del_as()">
     <br>
@@ -54,6 +55,15 @@
 </form>
 <script src="js/api.js"></script>
 <script type="text/javascript">
+    function edit_we() {
+        var t = String($('#t').val());
+        var c = String($('#c').val());
+        var a = String($('#as_name').val());
+        var w = String($('#w').val());
+
+        console.log(edit_weight(t, c, a, w));
+    }
+
     function edit_tr() {
         var term = String($('#new').val());
         var n = String($('#edit_t').val());
