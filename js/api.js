@@ -62,7 +62,8 @@ function delete_term(term) {
 
     var t_keys = Object.keys(terms);
     if (t_keys.length == 0) { // set to null so add_term(term) will work properly
-        localStorage['gpa_user'] = null;
+        terms = null;
+        localStorage['gpa_user'] = JSON.stringify(terms);
         return 'made null';
     }
     localStorage['gpa_user'] = JSON.stringify(terms);
@@ -140,6 +141,29 @@ function delete_course(term, course) {
     }
     localStorage['gpa_user'] = JSON.stringify(terms);
     return 'course deleted';
+}
+
+function edit_course(term, course, name, goal) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
+        return 'no such term';
+    }
+
+    var courses = terms[term];
+    if (course in courses) {
+        var contents = courses[course];
+        delete courses[course];
+        contents['goal'] = goal;
+        courses[name] = contents;
+        terms[term] = courses;
+        localStorage['gpa_user'] = JSON.stringify(terms);
+        return 'edited';
+    }
+    return 'no such course';
 }
 
 function add_assessment(term, course, name, weight) {

@@ -25,8 +25,11 @@
     <br>
     Goal:<input id="goal" type="text" name="term">
     <br>
+    New Course: <input id="edit_c" type="text" name="course">
+    <br>
     <input type="button" name="get course" value="get" onclick="get_c()">
     <input type="button" name="delete terms" value="delete" onclick="del_c()">
+    <input type="button" name="delete terms" value="edit" onclick="edit_co()">
 
     <p>Assessments:</p>
     Assessment name: <input id="as_name" type="text" name="as_name">
@@ -55,6 +58,14 @@
         var term = String($('#new').val());
         var n = String($('#edit_t').val());
         console.log(edit_term(term, n));
+    }
+
+    function edit_co() {
+        var term = String($('#term').val());
+        var c = String($('#course').val());
+        var nc = String($('#edit_c').val());
+        var g = String($('#goal').val());
+        console.log(edit_course(term, c, nc, g));
     }
 
     function add_t() {
