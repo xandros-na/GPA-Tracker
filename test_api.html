@@ -44,6 +44,7 @@
     <input type="button" name="add" value="add mark" onclick="add_m()">
     <br>
     <input type="button" name="add" value="get" onclick="get_a()">
+    <input type="button" name="delete terms" value="delete mark" onclick="del_m()">
 </form>
 <script src="js/api.js"></script>
 <script type="text/javascript">
@@ -112,7 +113,16 @@
         var c = String($('#c').val());
         var a = String($('#as_name').val());
 
-        console.log(delete_assessment(t,c,a));
+        console.log(delete_assessment(t, c, a));
+    }
+
+    function del_m() {
+        var t = String($('#t').val());
+        var c = String($('#c').val());
+        var a = String($('#as_name').val());
+        var as = String($('#as').val());
+
+        console.log(delete_mark(t,c,a,as));
     }
 </script>
 </body>
