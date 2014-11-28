@@ -8,9 +8,9 @@
 		
 		<link rel="stylesheet" src="css/bootstrap-theme.min.css">
 		<link rel="stylesheet" src="css/bootsrap.min.css">
-		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<!--<script type="text/javascript" src="js/bootstrap.min.js"></script>-->
 		
-		<link href="css/signin.css" rel="stylesheet">
+		<!--<link href="css/signin.css" rel="stylesheet">-->
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
@@ -20,6 +20,7 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/api.js"></script>
+		<!--<script type="text/javascript" src="js/angular.min.js"></script>-->
 		
 	</head>
 
@@ -37,8 +38,8 @@
 <div class="container">
 	
 	 <!-- Grades Heading and at new type of assessment -->
-	<h2>Grades <a data-toggle="modal" data-target="#addType">+</a></h2> 
-	<div class="modal fade" id="addType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<h2>Grades <a data-toggle="modal" data-target="#addAssessmentType">+</a></h2> 
+	<div class="modal fade" id="addAssessmentType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 				<div class="modal-content">
 				  <div class="modal-header">
@@ -52,7 +53,7 @@
 				  </div>
 				  <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button  id ="addAssessment" type="button" class="btn btn-primary" name="add" value="add mark" >Add + </button>
+					<button  id ="addAssessment" type="button" class="btn btn-primary" name="add" value="Add Assessment"  data-dismiss="modal">Add + </button>
 				  </div>
 				</div>
 			  </div>
@@ -67,7 +68,7 @@
         </a>
       </h4>
     </div>
-	
+		
     <div id="Quizzes" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingTwo">
       <div class="list-group">
           <p> quiz 1</p>
@@ -84,26 +85,26 @@
 	  <div class="list-group">
           <!-- Button trigger modal -->
 			<div class="panel-footer" >
-				<a data-toggle="modal" data-target="#addAssessment"> Add +</a>
+				<a data-toggle="modal" data-target="#addNewAssessment"> Add +</a>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="addAssessment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="addNewAssessment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 				<div class="modal-content">
 				  <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="myModalLabel">Add Assessment</h4>
+					<h4 class="modal-title" id="myModalLabel">Add New Assessment</h4>
 				  </div>
 				  <div class="modal-body">
-					<input id="mark" class="form-control" placeholder="Grade" required>
+					<input id="mark" class="form-control" placeholder="Mark" required>
 				  </div>
 				  <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button id ="addMark" type="button" class="btn btn-primary" >Add + </button>
+					<button  id ="addMark" type="button" class="btn btn-primary" name="add" value="Add Assessment"  data-dismiss="modal">Add + </button>
 				  </div>
 				</div>
 			  </div>
-			</div>
+	</div>
       </div>
 	  
     </div>
@@ -112,24 +113,40 @@
  </div>
    <script>
 	   $('#addMark').on('click', function() {
-		var t = "t";
-		var c = "c";
+		//add takes the information from user for mark and adds it to the local storage
+		var term = "t";
+		var ccourse = "c";
 		var as = "quizzes";
 		var mark = String($('#mark').val());
 		//var data = {t: {c: {'goal': '80', 'distance': '80', 'details': {'quizzes': {'weight': '10', 'overall': '0', 'list': null}}}}};
 		//localStorage['gpa_user'] = JSON.stringify(data);
-		console.log(add_mark(t,c,as,"q1",m));
+		//console.log(add_mark(t,c,as,"q1",m));
+		add_mark(term,course,as,"q1",mark);
 		});
 		
+		//add takes the information from user for assessment type and adds it to the local storage
 		$('#addAssessment').on('click', function() {
-		var t = "t";
-		var c = "c";
+		var term = "t";
+		var course = "c";
 		var name = String($('#as_name').val());;
 		var weight = String($('#as_weight').val());
 		//var data = {t: {c: {'goal': '80', 'distance': '80', 'details': {'quizzes': {'weight': '10', 'overall': '0', 'list': null}}}}};
 		//localStorage['gpa_user'] = JSON.stringify(data);
-		console.log(add_assessment(t, c, name, weight));
+		add_assessment(term, course, name, weight);
+	
+		var assessArray=get_assessments(term, course);
+		console.log(assessArray);
+		
+		var i;
+		for ( i=0; i<assessArray.length;i++){
+			console.log(assessArray[i]);
+			
+			
+		} 
+		
 		});
+		
+		
    </script>
 		
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

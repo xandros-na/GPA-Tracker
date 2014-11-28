@@ -137,7 +137,7 @@ function get_assessments(term, course) {
 
     var course_info = courses[course];
     var assessments = course_info['details'];
-    return JSON.stringify(Object.keys(assessments));
+    return Object.keys(assessments);
 }
 
 function add_mark(term, course, assessment, name, mark) {
@@ -207,24 +207,3 @@ function _calc_distance(as_details, course_info) {
     console.log(course_info['goal'], as_details['overall'], pct_weight);
     return parseFloat(course_info['goal']) - (parseFloat(as_details['overall']) * pct_weight);
 }
-
-
-// function add_m() {
-	// var t = "2014 Fall";
-	// var c = "CP317";
-	// var a = "Quiz;
-	// var m = String($('#m').val());
-	// var as = "Quiz 4";
-
-	// console.log(add_mark(t, c, a, as, m));
-// }
-
-
-// function add_a() {
-    // var t = "2014 Fall";
-    // var c = "CP317";
-    // var a = String($('#as_name').val());
-    // var w = "30";
-
-    // console.log(add_assessment(t, c, a, w));
- // }
