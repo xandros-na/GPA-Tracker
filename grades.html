@@ -9,6 +9,7 @@
 		<link rel="stylesheet" src="css/bootstrap-theme.min.css">
 		<link rel="stylesheet" src="css/bootsrap.min.css">
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		
 		<link href="css/signin.css" rel="stylesheet">
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
@@ -18,6 +19,7 @@
 
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
 		
 	</head>
 
@@ -34,9 +36,27 @@
   
 <div class="container">
 	
-	<h2>Grades <a href="#">+</a></h2> 
-	
-	
+	 <!-- Grades Heading and at new type of assessment -->
+	<h2>Grades <a data-toggle="modal" data-target="#addType">+</a></h2> 
+	<div class="modal fade" id="addType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">Add New Type of Assessment</h4>
+				  </div>
+				  <div class="modal-body">
+					<input id="as_name" class="form-control" placeholder="Grade" required>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" name="add" value="add mark" onclick="add_a()" >Add + </button>
+				  </div>
+				</div>
+			  </div>
+	</div>
+
+<!-- List of Types of assessments -->
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingTwo">
       <h4 class="panel-title">
@@ -57,13 +77,15 @@
           <p> quiz 3</p>
       </div>
 	  
+	  
+	  
 	  <div class="list-group">
           <!-- Button trigger modal -->
-			 <div class="panel-footer" >
-				<a data-toggle="modal" data-target="#myModal"> Add +</a>
+			<div class="panel-footer" >
+				<a data-toggle="modal" data-target="#addAssessment"> Add +</a>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="addAssessment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 				<div class="modal-content">
 				  <div class="modal-header">
@@ -71,13 +93,11 @@
 					<h4 class="modal-title" id="myModalLabel">Add Assessment</h4>
 				  </div>
 				  <div class="modal-body">
-					<input class="form-control" placeholder="Name of assessment" required autofocus>
-					<br></br>
-					<input class="form-control" placeholder="Grade" required>
+					<input id="m" class="form-control" placeholder="Grade" required>
 				  </div>
 				  <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary">Add + </button>
+					<button id ="addMark"type="button" class="btn btn-primary" >Add + </button>
 				  </div>
 				</div>
 			  </div>
@@ -88,11 +108,17 @@
 	
   </div>
  </div>
-    
-      
-
-   
-
+   <script>
+	   $('#addMark').on('click', function() {
+			alert("sdf");
+		var t = "2014 Fall";
+		var c = "CP317";
+		var as = "Quiz";
+		var m = String($('#m').val());
+		console.log(add_mark(t,c,as,m));
+		});
+   </script>
+		
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   </body>

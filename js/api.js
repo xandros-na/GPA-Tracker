@@ -172,6 +172,7 @@ function add_mark(term, course, assessment, name, mark) {
         as_details['overall'] = mark; // update overall mark
         assessments[assessment] = as_details;
         course_info['details'] = assessments;
+        course_info['distance'] = _calc_distance(as_details, course_info);
         courses[course] = course_info;
         terms[term] = courses;
         localStorage['gpa_user'] = JSON.stringify(terms);
@@ -184,6 +185,7 @@ function add_mark(term, course, assessment, name, mark) {
     as_details['overall'] = average;
     assessments[assessment] = as_details;
     course_info['details'] = assessments;
+    course_info['distance'] = _calc_distance(as_details, course_info);
     courses[course] = course_info;
     terms[term] = courses;
     localStorage['gpa_user'] = JSON.stringify(terms);
@@ -194,7 +196,34 @@ function _update_overall(list) {
     var keys = Object.keys(list);
     var total = 0;
     for(var i=0; i<keys.length; i++) {
-        total += parseInt(list[keys[i]]);
+        total += parseFloat(list[keys[i]]);
     }
     return total / keys.length;
 }
+
+function _calc_distance(as_details, course_info) {
+    var pct_weight = parseFloat(as_details['weight']) / 100;
+    console.log(course_info['goal'], as_details['overall'], pct_weight);
+    return parseFloat(course_info['goal']) - (parseFloat(as_details['overall']) * pct_weight);
+}
+
+
+// function add_m() {
+	// var t = "2014 Fall";
+	// var c = "CP317";
+	// var a = "Quiz;
+	// var m = String($('#m').val());
+	// var as = "Quiz 4";
+
+	// console.log(add_mark(t, c, a, as, m));
+// }
+
+
+// function add_a() {
+    // var t = "2014 Fall";
+    // var c = "CP317";
+    // var a = String($('#as_name').val());
+    // var w = "30";
+
+    // console.log(add_assessment(t, c, a, w));
+ // }
