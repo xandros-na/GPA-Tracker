@@ -229,7 +229,7 @@ function get_assessments(term, course) {
 
     var course_info = courses[course];
     var assessments = course_info['details'];
-    return JSON.stringify(Object.keys(assessments));
+    return Object.keys(assessments);
 }
 
 function delete_assessment(term, course, assessment) {
@@ -446,6 +446,43 @@ function edit_mark(term, course, assessment, as_name, mark) {
     terms[term] = courses;
     localStorage['gpa_user'] = JSON.stringify(terms);
     return 'edited';
+}
+
+function get_marks(term, course, assessment) {
+    if (_is_undefined(localStorage['gpa_user'])) {
+        return 'nothing in storage';
+    }
+
+    var terms = JSON.parse(localStorage['gpa_user']);
+    if (!(term in terms)) {
+        return 'no such term';
+    }
+
+    var courses = terms[term];
+    if (!(course in courses)) {
+        return 'no such course';
+    }
+
+    var course_info = courses[course]; //{'goal': 0, 'distance': 0, 'details':null or Object}
+    var assessments = course_info['details']; //{null or 'quizzes': Object}
+
+    if (assessments == null || !(assessment in assessments)) {
+        return 'no such assessment';
+    }
+
+    var as_details = assessments[assessment];
+    if (as_details['list'] == null) {
+        return 'nothing to get';
+    }
+
+    var marks = [];
+    var mark_list = as_details['list'];
+    var keys = Object.keys(as_details['list']);
+
+    for (var k in keys) {
+        marks.push(mark_list[keys[k]]);
+    }
+    return marks;
 }
 
 function _update_overall(list) {
