@@ -82,6 +82,7 @@ function get_courses(term) {
 function add_assessment(term, course, name, weight) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
+	
     }
 
     var terms = JSON.parse(localStorage['gpa_user']);
