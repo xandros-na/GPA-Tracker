@@ -45,7 +45,14 @@ trackerAppControllers.controller("TermCtrl", ["$scope", function ($scope) {
         $scope.terms.push(tempo);
         add_term(tempo);
         console.log(JSON.parse(localStorage['gpa_user']));
-    }
+    };
+
+    $scope.deleteTerm=function(term){
+        var index=$scope.terms.indexOf(term);
+        $scope.terms.splice(index,1);
+        delete_term(term);
+    };
+
 }]);
 
 trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", function ($scope, $routeParams) {

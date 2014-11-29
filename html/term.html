@@ -13,6 +13,7 @@
 		<a class="list-group-item list-text" href="#/courseList/{{term}}">
 			{{term}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
 		</a>
+        <button class="glyphicon glyphicon-remove" type="button" value="delete" ng-click="deleteTerm(term)"></button>
 	</div>
     <button ng-click="addTerm(new_term)">add term</button><input ng-model="new_term" type="text">
 </div>
