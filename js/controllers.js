@@ -30,25 +30,22 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", function ($scope) 
     };
 }]);
 
+//$scope.object=
+//$scope.keys= keys()
+//
+//repeat k in keys
+//    <a>}{{k}} + : + {{object[k]}}
+
 trackerAppControllers.controller("TermCtrl", ["$scope", function ($scope) {
     //get term list from DB
-    var data = {'2014':
-                    {'cp':
-                        {'goal': 100, 'distance': 100, 'details':
-                            {'quizzes':
-                                {'weight': 10, 'overall': 10, 'list':
-                                    {'q1': 5, 'q2': 5}
-                                }
-                            }
-                        },
-                    'ma222': null
-                    },
 
-                '2015':
-                    {'ma': null},
-                '2016': null};
-    localStorage['gpa_user'] = JSON.stringify(data);
     $scope.terms = get_terms();
+    $scope.addTerm=function(){
+        var tempo = $scope.new_term;
+        $scope.terms.push(tempo);
+        add_term(tempo);
+        console.log(JSON.parse(localStorage['gpa_user']));
+    }
 }]);
 
 trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", function ($scope, $routeParams) {
