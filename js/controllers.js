@@ -61,14 +61,18 @@ trackerAppControllers.controller("AssessmentsCtrl",["$scope", function($scope){
 }]);
 
 trackerAppControllers.controller("MarksCtrl",["$scope", function($scope){
-	var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm' : {'list': {'m1':80, 'm2':80}}, 'quizzes': {'list': {'q1':80, 'q2':80}}}}}};
+	var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm' : {'list': {'m1':80, 'm2':80}}, 'quizzes': {'list': {'q1':80, 'q2':70}}}}}};
 	localStorage['gpa_user'] = JSON.stringify(data);
 	//$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
 	var as = get_marks('2014', 'cp','quizzes');
+	var keys = Object.keys(as);
+	console.log(keys.length == as.length);
 	var a = [];
-	for (var i in as) {
+	for (var i=0; i<keys.length; i++) {
 		var b = {}
-		b['name'] = as[i]; // ->> {'name': as[i]}
+		console.log(keys[i], as[keys[i]]);
+		b['name'] = keys[i]
+		b['mark'] = as[keys[i]]; // ->> {'name': as[i]}
 		a.push(b); // ->> [ {'name': as[i]} ]
 	}
 	$scope.marks= a; //-->> [ {'name': 'zzz'}, {'name': 'aaa'} ]

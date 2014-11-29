@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="gpaTrackerApp">
 <head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,92 +8,170 @@
 		
 		<link rel="stylesheet" src="css/bootstrap-theme.min.css">
 		<link rel="stylesheet" src="css/bootsrap.min.css">
-		<script type="text/javascript" src="js/bootstrap.min.js"></script>
-		<link href="css/signin.css" rel="stylesheet">
+	
+
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
 
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-		
-	</head>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+</head>
 
 <body>
   <nav class="navbar navbar-inverse">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">GPA Tracker App</a>
-    </div>
-    <div>
-      
-    </div>
+	<div class="navbar-header">
+	  <a class="navbar-brand" href="#">GPA Tracker App</a>
+	</div>
+	<div>
+	  
+	</div>
 </nav>
   
-  
-<div class="container">
+<div ng-app>
+	<div class="container">
+		
+		 <!-- Grades Heading and at new type of assessment -->
+		<h2>Grades <a data-toggle="modal" data-target="#addAssessmentType">+</a></h2> 
+		<div class="modal fade" id="addAssessmentType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="myModalLabel">Add New Type of Assessment</h4>
+					  </div>
+					  <div class="modal-body">
+						<input id="as_name" class="form-control" placeholder="Type of Assessment" required>
+						<br></br>
+						<input id="as_weight" class="form-control" placeholder="Weight" required>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button  id ="addAssessment" type="button" class="btn btn-primary" name="add" value="Add Assessment"  data-dismiss="modal">Add + </button>
+					  </div>
+					</div>
+				  </div>
+		</div>
+
+	<!-- List of Types of assessments -->
+
 	
-	<h2>Grades <a href="#">+</a></h2> 
-	
-	
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#Quizzes" aria-expanded="false" aria-controls="Quizzes">
-          Quizzes
-        </a>
-      </h4>
-    </div>
-	
-    <div id="Quizzes" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingTwo">
-      <div class="list-group">
-          <p> quiz 1</p>
-      </div>
-	  <div class="list-group">
-          <p> quiz 2</p>
-      </div>
-	  <div class="list-group">
-          <p> quiz 3</p>
-      </div>
-	  
-	  <div class="list-group">
-          <!-- Button trigger modal -->
-			 <div class="panel-footer" >
-				<a data-toggle="modal" data-target="#myModal"> Add +</a>
+	  <div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="headingQuiz">
+		  <h4 class="panel-title">
+			
+			<a  class= "collapsed" data-toggle="collapse" data-parent="#accordion" href="#Quizzes" aria-expanded="false" aria-controls="Quizzes">
+			  Quizzes
+			</a>
+		  </h4>
+		</div>
+			
+		<div id="Quizzes" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingQuiz">
+		  <div ng-controller="AppController">
+			  <!--<div class="list-group">
+				  <p> quiz 1</p>
+			  </div>
+			  <div class="list-group">
+				  <p> quiz 2</p>
+			  </div>
+			  <div class="list-group">
+				  <p> quiz 3</p>
+			  </div>-->
+		  		
+		
+			<ul class="unstyled">
+				<li ng-repeat="assessment in assessments">
+					<span class="{{assessment}}">{{assessment.text}}</span>
+				</li>
+			</ul>
+		  <!--<form ng-submit="addAssessment()">
+			<input type="text" ng-model="assessmentText"  size="30"
+				   placeholder="add new assessment here">
+			<input class="btn-primary" type="submit" value="add">
+		  </form>-->
+		
+		  
+		<!--<div class="list-group">-->
+			<!-- Button trigger modal -->
+			<div class="panel-footer" >
+				<a data-toggle="modal" data-target="#addNewAssessment"> Add +</a>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="myModalLabel">Add Assessment</h4>
-				  </div>
-				  <div class="modal-body">
-					<input class="form-control" placeholder="Name of assessment" required autofocus>
-					<br></br>
-					<input class="form-control" placeholder="Grade" required>
-				  </div>
-				  <div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary">Add + </button>
+			<div class="modal fade" id="addNewAssessment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-submit="addAssessment()">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="myModalLabel">Add New Assessment</h4>
+						</div>
+						<div class="modal-body">
+							<input id="mark" class="form-control" ng-model="assessmentText" placeholder="Mark" required>
+						</div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<input id ="addMark" type="button" class="btn-primary" name="add" value="Add +" data-dismiss="modal">
+					  </div>
+					</div>
 				  </div>
 				</div>
-			  </div>
-			</div>
-      </div>
+			<!--</div>-->
+		 </div> 
+		</div>
+		
+	  </div>
 	  
-    </div>
-	
-  </div>
+	  		
+	  
+	 </div>
  </div>
-    
-      
-
-   
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+   <script>
+	   $('#addMark').on('click', function() {
+		//add takes the information from user for mark and adds it to the local storage
+		var term = "t";
+		var course = "c";
+		var as = "quizzes";
+		var mark = String($('#mark').val());
+		var data = {t: {c: {'goal': '80', 'distance': '80', 'details': {'quizzes': {'weight': '10', 'overall': '0', 'list':{'q1':'10','q2':'20'}}}}}};
+		localStorage['gpa_user'] = JSON.stringify(data);
+		//add_mark(term,course,as,"q3",mark);
+		var markArray=get_marks(term, course,as);
+		console.log( markArray);
+		var i;
+		for ( i=0; i< markArray.length;i++){
+			console.log( markArray[i]);
+			
+			
+		} 
+		
+		});
+		
+		//add takes the information from user for assessment type and adds it to the local storage
+		$('#addAssessment').on('click', function() {
+		var term = "t";
+		var course = "c";
+		var name = String($('#as_name').val());;
+		var weight = String($('#as_weight').val());
+		//var data = {t: {c: {'goal': '80', 'distance': '80', 'details': {'quizzes': {'weight': '10', 'overall': '0', 'list':{"q1":10,"q2":20}}}}}};
+		//localStorage['gpa_user'] = JSON.stringify(data);
+		add_assessment(term, course, name, weight);
+	
+		var assessArray=get_assessments(term, course);
+		
+		var i;
+		for ( i=0; i<assessArray.length;i++){
+			console.log(assessArray[i]);
+			
+			
+		} 
+		
+		});
+		
+   </script>
+		
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
   </body>
   </html>
