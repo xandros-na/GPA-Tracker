@@ -1,0 +1,10 @@
+<div class="container" ng-controller="SignInFormCtrl">
+	<form ng-submit="submitForm()" class="form-signin">
+		<h2 class="form-signin-heading">{{title}}</h2>
+		<input type="username" ng-model="username" class="form-control" placeholder="Username" required autofocus>
+		<input type="password" ng-model="password" class="form-control" placeholder="Password" required>
+		<input type="password" ng-hide="!(switch==='Sign In')" ng-model="repassword" class="form-control" placeholder="Re-enter password" required>
+		<input class="btn btn-lg btn-primary btn-block sign-button" type="submit" value={{submitButton}}>
+		<a ng-click="contentSwitch()">{{switch}}</a>
+	</form>
+</div>
