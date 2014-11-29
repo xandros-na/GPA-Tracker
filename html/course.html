@@ -10,8 +10,8 @@
 </style>
 <div ng-controller="CourseCtrl">
 	<div  ng-repeat="course in courses | orderBy: 'name'">
-		<a class="list-group-item list-text" href="#/course/{{course.name}}">
-			{{course.name}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
+		<a class="list-group-item list-text" href="#/course/{{course}}">
+			{{course}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
 		</a>
 	</div>
 </div>
