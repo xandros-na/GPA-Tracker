@@ -7,13 +7,13 @@ var trackerApp = angular.module('tracker', [
 trackerApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-            when('/course', {
-                templateUrl: 'html/course.html',
-//		controller: 'AssessmentsCtrl'
-                controller: 'CourseCtrl'
+            when('/assessments', {
+                templateUrl: 'html/assessment.html',
+		controller: 'AccordionDemoCtrl'
+//                controller: 'CourseCtrl'
 //        controller: 'SignInFormCtrl'
             }).
             otherwise({
-                redirectTo: '/course'
+                redirectTo: '/assessments'
             });
     }]);
