@@ -475,14 +475,7 @@ function get_marks(term, course, assessment) {
         return 'nothing to get';
     }
 
-    var marks = [];
-    var mark_list = as_details['list'];
-    var keys = Object.keys(as_details['list']);
-
-    for (var k in keys) {
-        marks.push(mark_list[keys[k]]);
-    }
-    return marks;
+    return as_details['list'];
 }
 
 function _update_overall(list) {
