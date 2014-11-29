@@ -1,0 +1,27 @@
+<style type="text/css">
+	.list-group{
+		position: relative;
+		margin-top:-20px;
+		font-size: 150%;
+	}
+	.nextpage{
+		position:absolute;
+		right:30px;
+		top:14px;
+
+	}
+</style>
+<div ng-controller="AssessmentsCtrl">
+	<div  ng-repeat="a in assessments | orderBy: 'name'" class="list-group">
+		<a class="list-group-item">{{a.name}}
+		<span class="glyphicon glyphicon-chevron-right nextpage"></span></a>
+		
+	</div>
+</div>
+
+<div ng-controller="MarksCtrl">
+	<div  ng-repeat="b in marks | orderBy: 'name'" class="list-group">
+		<a class="list-group-item">{{b.name}}
+		<span class="glyphicon glyphicon-chevron-right nextpage"></span></a>
+	</div>
+</div>
