@@ -1,18 +1,18 @@
-
 var trackerApp = angular.module('tracker', [
-  'ngRoute',
-  'trackerAppControllers'
+    'ngRoute',
+    'trackerAppControllers'
 ]);
 
 trackerApp.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/assessment', {
-        templateUrl: 'html/assessment.html',
-		controller: 'AssessmentsCtrl'
-        //controller: 'SignInFormCtrl'
-      }).
-      otherwise({
-        redirectTo: '/assessment'
-      });
-  }]);
+    function ($routeProvider) {
+        $routeProvider.
+            when('/course', {
+                templateUrl: 'html/course.html',
+//		controller: 'AssessmentsCtrl'
+                controller: 'CourseCtrl'
+//        controller: 'SignInFormCtrl'
+            }).
+            otherwise({
+                redirectTo: '/course'
+            });
+    }]);

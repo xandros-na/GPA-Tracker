@@ -44,38 +44,58 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", function ($scope) 
     };
 }]);
 
-trackerAppControllers.controller("AssessmentsCtrl",["$scope", function($scope){
-	var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm' : null, 'quizzes': null}}}};
-	localStorage['gpa_user'] = JSON.stringify(data);
-	//$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
-	var as = get_assessments('2014', 'cp');
-	var a = [];
-	for (var i in as) {
-		var b = {}
-		b['name'] = as[i]; // ->> {'name': as[i]}
-		a.push(b); // ->> [ {'name': as[i]} ]
-	}
-	$scope.assessments= a; //-->> [ {'name': 'zzz'}, {'name': 'aaa'} ]
-	$scope.orderProp = 'name';
-	
+trackerAppControllers.controller("TermCtrl", ["$scope", function ($scope) {
+    $scope.terms = [
+        {'name': 'd2014'},
+        {'name': 'b2003'},
+        {'name': 'a2003'},
+        {'name': 'c2003'}
+    ];
+
 }]);
 
-trackerAppControllers.controller("MarksCtrl",["$scope", function($scope){
-	var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm' : {'list': {'m1':80, 'm2':80}}, 'quizzes': {'list': {'q1':80, 'q2':70}}}}}};
-	localStorage['gpa_user'] = JSON.stringify(data);
-	//$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
-	var as = get_marks('2014', 'cp','quizzes');
-	var keys = Object.keys(as);
-	console.log(keys.length == as.length);
-	var a = [];
-	for (var i=0; i<keys.length; i++) {
-		var b = {}
-		console.log(keys[i], as[keys[i]]);
-		b['name'] = keys[i]
-		b['mark'] = as[keys[i]]; // ->> {'name': as[i]}
-		a.push(b); // ->> [ {'name': as[i]} ]
-	}
-	$scope.marks= a; //-->> [ {'name': 'zzz'}, {'name': 'aaa'} ]
-	$scope.orderProp = 'name';
-	
+trackerAppControllers.controller("CourseCtrl", ["$scope", function ($scope) {
+    $scope.courses = [
+        {'name': 'ma205'},
+        {'name': 'cp114'},
+        {'name': 'cp217'},
+        {'name': 'ma218'}
+    ];
+
+}]);
+
+trackerAppControllers.controller("AssessmentsCtrl", ["$scope", function ($scope) {
+    var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm': null, 'quizzes': null}}}};
+    localStorage['gpa_user'] = JSON.stringify(data);
+    //$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
+    var as = get_assessments('2014', 'cp');
+    var a = [];
+    for (var i in as) {
+        var b = {};
+        b['name'] = as[i]; // ->> {'name': as[i]}
+        a.push(b); // ->> [ {'name': as[i]} ]
+    }
+    $scope.assessments = a; //-->> [ {'name': 'zzz'}, {'name': 'aaa'} ]
+    $scope.orderProp = 'name';
+
+}]);
+
+trackerAppControllers.controller("MarksCtrl", ["$scope", function ($scope) {
+    var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm': {'list': {'m1': 80, 'm2': 80}}, 'quizzes': {'list': {'q1': 80, 'q2': 70}}}}}};
+    localStorage['gpa_user'] = JSON.stringify(data);
+    //$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
+    var as = get_marks('2014', 'cp', 'quizzes');
+    var keys = Object.keys(as);
+    console.log(keys.length == as.length);
+    var a = [];
+    for (var i = 0; i < keys.length; i++) {
+        var b = {};
+        console.log(keys[i], as[keys[i]]);
+        b['name'] = keys[i];
+        b['mark'] = as[keys[i]]; // ->> {'name': as[i]}
+        a.push(b); // ->> [ {'name': as[i]} ]
+    }
+    $scope.marks = a; //-->> [ {'name': 'zzz'}, {'name': 'aaa'} ]
+    $scope.orderProp = 'name';
+
 }]);

@@ -1,0 +1,20 @@
+<style type="text/css">
+    .list-group {
+        position: relative;
+        margin-top: -20px;
+        font-size: 150%;
+    }
+
+    .nextpage {
+        position: absolute;
+        right: 30px;
+        top: 14px;
+
+    }
+</style>
+<div ng-controller="TermCtrl">
+    <div ng-repeat="term in terms | orderBy: 'name'" class="list-group">
+        <a class="list-group-item">{{term.name}}
+            <span class="glyphicon glyphicon-chevron-right nextpage"></span></a>
+    </div>
+</div>
