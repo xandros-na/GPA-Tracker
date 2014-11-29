@@ -1,4 +1,5 @@
 var trackerApp = angular.module('tracker', [
+    'ui.bootstrap',
     'ngRoute',
     'trackerAppControllers'
 ]);
