@@ -1,60 +1,46 @@
 <style type="text/css">
-	.list-group{
-		position: relative;
-		margin-top:-20px;
-		font-size: 150%;
-	}
-	.nextpage{
-		position:absolute;
-		right:30px;
-		top:14px;
+    .list-group {
+        position: relative;
+        margin-top: -20px;
+        font-size: 150%;
+    }
 
-	}
+    .nextpage {
+        position: absolute;
+        right: 30px;
+        top: 14px;
+
+    }
 </style>
 <div ng-controller="AssessmentsCtrl">
-	<div  ng-repeat="a in assessments | orderBy: 'name'" class="list-group">
-		<a class="list-group-item">{{a.name}}
-		<span class="glyphicon glyphicon-chevron-right nextpage"></span></a>
-		
-	</div>
-</div>
+    <accordion close-others="oneAtATime">
+        <accordion-group ng-repeat="assessment in assessments | orderBy: 'name'" id="{{assessment.name}}">
+            <accordion-heading>
+                {{assessment.name}} <i class="pull-right glyphicon"
+                                       ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </accordion-heading>
+            <!--<div ng-controller="MarksCtrl">-->
+            <div ng-repeat="b in items | orderBy: 'name'" class="list-group-item">
+                <a class="list-group-item">{{b.name}} {{b.mark}}</a>
+            </div>
+            <!--</div>-->
+            <br>
+            <!--<button class="btn btn-primary" ng-click="addItem()">Add +</button>-->
+            <button class="btn btn-primary" ng-click="open('sm')">Add +</button>
+            <!--<div ng-repeat="item in items">{{item}}</div>-->
+        </accordion-group>
 
-<!--<div ng-controller="MarksCtrl">
-	<div  ng-repeat="b in marks | orderBy: 'name'" class="list-group">
-		<a class="list-group-item">{{b.name}}             {{b.mark}}
-		<span class="glyphicon glyphicon-chevron-right nextpage"></span></a>
-	</div>
-</div>-->
-
-
-
-<div ng-controller="AccordionDemoCtrl">
-  <p>
-    <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
-    <button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
-  </p>
-
-  <label class="checkbox">
-    <input type="checkbox" ng-model="oneAtATime">
-    Open only one at a time
-  </label>
-  <accordion close-others="oneAtATime">
-    <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
-      This content is straight in the template.
-    </accordion-group>
-    <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
-      {{group.content}}
-    </accordion-group>
-    <accordion-group heading="Dynamic Body Content">
-      <p>The body of the accordion group grows to fit the contents</p>
-        <button class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
-        <div ng-repeat="item in items">{{item}}</div>
-    </accordion-group>
-    <accordion-group is-open="status.open">
-        <accordion-heading>
-            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-        </accordion-heading>
-        This is just some content to illustrate fancy headings.
-    </accordion-group>
-  </accordion>
+    </accordion>
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Add a mark</h3>
+        </div>
+        <div class="modal-body">
+            <input id="mark" class="form-control" ng-model="assessmentText" placeholder="Mark" required>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <button id="addMark" type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+        </div>
+    </script>
 </div>
