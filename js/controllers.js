@@ -1,7 +1,7 @@
 var trackerAppControllers = angular.module('trackerAppControllers', []);
 
 
-trackerAppControllers.controller("SignInFormCtrl", ["$scope", function ($scope) {
+trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", function ($scope, $location) {
     $scope.title = "Sign In";
     $scope.submitButton = "Sign In";
     $scope.switch = "I don't have an account yet.";
@@ -9,9 +9,37 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", function ($scope) 
     $scope.submitForm = function (user) {
         if (!($scope.switch === "Sign In")) {
             //check with server and download profile
+            $.ajax({
+            url: 'http://cp317api.pythonanywhere.com/api/login',
+            type: 'POST',
+//            contentType: 'application/json',
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic" + " " + btoa(user.name + ":" + user.password));
+            },
+            success: function (data) {
+                console.log(data);
+                localStorage['gpa_user'] = JSON.stringify(data);
+                console.log('call');
+                $scope.$apply(function () {
+                     $location.path('term');
+                });
+            }
+        });
         }
         else {
             //check with server and create profile
+            var creds = JSON.stringify({'username': user.name, 'password': user.password, 'data':{'gpa_user': 'null'}});
+            $.ajax({
+                url: 'http://cp317api.pythonanywhere.com/api/register',
+                data: creds,
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    localStorage['token'] = JSON.stringify(data);
+                }
+            });
         }
 
     };

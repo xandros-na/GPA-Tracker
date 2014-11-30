@@ -28,7 +28,7 @@ trackerApp.config(['$routeProvider',
                 controller: 'AssessmentsCtrl'
             }).
             otherwise({
-                redirectTo: '/assessments'
+                redirectTo: '/login'
             });
 
     }]);

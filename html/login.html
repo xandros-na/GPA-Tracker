@@ -8,8 +8,10 @@
 		<h2 class="form-signin-heading">{{title}}</h2>
 		<input type="username" ng-model="user.name" class="form-control" placeholder="Username" required autofocus>
 		<input type="password" ng-model="user.password" class="form-control" placeholder="Password" required>
-		<input type="password" ng-model="user.repassword" ng-hide="!(switch==='Sign In')" class="form-control" placeholder="Re-enter password"><span id="passwordMessage" ng-hide=(user.password==user.repassword)>Does not match the previous entry</span>
-		<input class="btn btn-lg btn-primary btn-block sign-button" type="submit" value={{submitButton}}>
-		<a ng-click="contentSwitch()" href="#/term">{{switch}}</a>
+        <div ng-hide="!(switch==='Sign In')">
+		<input type="password" ng-model="user.repassword"  class="form-control" placeholder="Re-enter password"><span id="passwordMessage" ng-hide=(user.password==user.repassword)>Does not match the previous entry</span>
+		</div>
+		<input class="btn btn-lg btn-primary btn-block sign-button" type="submit" value={{submitButton}} ng-model="submitButton">
+		<a ng-click="contentSwitch()">{{switch}}</a>
 	</form>
 </div>
