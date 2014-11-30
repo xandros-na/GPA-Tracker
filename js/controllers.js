@@ -40,10 +40,9 @@ trackerAppControllers.controller("TermCtrl", ["$scope", function ($scope) {
     //get term list from DB
 
     $scope.terms = get_terms();
-    $scope.addTerm=function(){
-        var tempo = $scope.new_term;
-        $scope.terms.push(tempo);
-        add_term(tempo);
+    $scope.addTerm=function(term){
+        $scope.terms.push(term);
+        add_term(term);
         console.log(JSON.parse(localStorage['gpa_user']));
     };
 
@@ -60,6 +59,18 @@ trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", functi
     var term = $routeParams.termName;
     //get course list from DB
     $scope.courses = get_courses(term);
+
+    $scope.addCourse=function(course, goal){
+        $scope.courses.push(course);
+        add_course(term, course, goal);
+        console.log(JSON.parse(localStorage['gpa_user']));
+    };
+
+    $scope.deleteCourse=function(course){
+        var index=$scope.courses.indexOf(course);
+        $scope.courses.splice(index,1);
+        delete_course(term, course);
+    };
 }]);
 
 trackerAppControllers.controller("AssessmentCtrl", ["$scope", "$routeParams", function ($scope, $routeParams) {

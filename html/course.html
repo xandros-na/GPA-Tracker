@@ -13,5 +13,8 @@
 		<a class="list-group-item list-text" href="#/course/{{course}}">
 			{{course}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
 		</a>
+<button class="glyphicon glyphicon-remove" type="button" value="delete" ng-click="deleteCourse(course)"></button>
 	</div>
+    <button ng-click="addCourse(newCourse, goal)">add Course</button><input ng-model="newCourse" type="text" placeholder="Course name">
+    <input ng-model="goal" type="text" placeholder="Goal">
 </div>
