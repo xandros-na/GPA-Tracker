@@ -74,8 +74,8 @@ trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", functi
 }]);
 
 trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", function ($scope, $modal) {
-    var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm': {'list': {'m1': 80, 'm2': 80}}, 'quizzes': {'list': {'q1': 80, 'q2': 70}}}}}};
-    localStorage['gpa_user'] = JSON.stringify(data);
+    //var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm': {'list': {'m1': 80, 'm2': 80}}, 'quizzes': {'list': {'q1': 80, 'q2': 70}}}}}};
+    //localStorage['gpa_user'] = JSON.stringify(data);
     //$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
     var getAssess = get_assessments('2014', 'cp');
     var assessment = [];
@@ -138,13 +138,11 @@ trackerAppControllers.controller('ModalInstanceCtrl', function ($scope, $modalIn
 	var as = "quizzes";
 	var mark = $scope.assessmentText;
 	console.log(mark);
-
 	add_mark(term,course,as,"q4",mark);
 	var b = {};
 	b['name'] = "q44"; //->> {'name': q1}
     b['mark'] = mark;
 	$scope.items.push(b);
-
   };
 
   $scope.cancel = function () {

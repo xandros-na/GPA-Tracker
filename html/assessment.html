@@ -21,7 +21,7 @@
             </accordion-heading>
             <!--<div ng-controller="MarksCtrl">-->
             <div ng-repeat="b in items | orderBy: 'name'" class="list-group-item">
-                <a class="list-group-item">{{b.name}} {{b.mark}}</a>
+                <a ng-click= "open('sm')" class="list-group-item">{{b.name}} {{b.mark}}</a>
             </div>
             <!--</div>-->
             <br>
