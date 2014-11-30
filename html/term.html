@@ -15,6 +15,11 @@
 		</a>
         <button class="glyphicon glyphicon-remove" type="button" value="delete" ng-click="deleteTerm(term)"></button>
 	</div>
+    <div ng-hide="terms.length">
+        <div class="page-header">
+  <h1>No terms yet</h1>
+</div>
+    </div>
     <button ng-click="addTerm(newTerm, goal)">add term</button><input ng-model="newTerm" type="text"><input ng-model="goal" type="text">
 </div>
 

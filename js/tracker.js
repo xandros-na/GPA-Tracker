@@ -19,9 +19,9 @@ trackerApp.config(['$routeProvider',
                 templateUrl: 'html/course.html',
                 controller: 'CourseCtrl'
             }).
-            when('/course/:courseName', {
-                templateUrl: 'html/courseDetail.html',
-                controller: 'AssessmentCtrl'
+            when('/course/:termName/:courseName', {
+                templateUrl: 'html/assessment.html',
+                controller: 'AssessmentsCtrl'
             }).
             when('/assessments', {
                 templateUrl: 'html/assessment.html',

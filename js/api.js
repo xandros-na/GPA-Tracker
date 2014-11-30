@@ -113,7 +113,11 @@ function get_courses(term) {
         return 'no such term';
     }
     var courses = terms[term];
-    return Object.keys(courses);
+    if(courses == null) {
+        return [];
+    } else {
+        return Object.keys(courses);
+    }
 }
 
 function delete_course(term, course) {
@@ -229,7 +233,12 @@ function get_assessments(term, course) {
 
     var course_info = courses[course];
     var assessments = course_info['details'];
-    return Object.keys(assessments);
+    if(assessments == null) {
+        return [];
+    } else {
+        return Object.keys(assessments);
+    }
+
 }
 
 function delete_assessment(term, course, assessment) {

@@ -14,23 +14,29 @@
 </style>
 <div ng-controller="AssessmentsCtrl">
     <accordion close-others="oneAtATime">
-        <accordion-group ng-repeat="assessment in assessments | orderBy: 'name'" id="{{assessment.name}}">
+        <accordion-group ng-repeat="assessment in assessments | orderBy: 'name'" is-open="status.open">
             <accordion-heading>
                 {{assessment.name}} <i class="pull-right glyphicon"
                                        ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-            </accordion-heading>
+				
+			</accordion-heading>
             <!--<div ng-controller="MarksCtrl">-->
-            <div ng-repeat="b in items | orderBy: 'name'" class="list-group-item">
-                <a ng-click= "open('sm')" class="list-group-item">{{b.name}} {{b.mark}}</a>
+            <div ng-repeat="b in showMarks(assessment.name) track by $index" class="list-group-item">
+                <a ng-click= "open('sm')" class="list-group-item">{{assessment.name[0]}}{{$index +1}}    {{b}}</a>
             </div>
             <!--</div>-->
             <br>
             <!--<button class="btn btn-primary" ng-click="addItem()">Add +</button>-->
-            <button class="btn btn-primary" ng-click="open('sm')">Add +</button>
+            <button class="btn btn-primary" ng-click="open('sm', assessment.name)" ng-model=assessment.name>Add +</button>
             <!--<div ng-repeat="item in items">{{item}}</div>-->
         </accordion-group>
 
     </accordion>
+        <div ng-hide="assessments.length">
+        <div class="page-header">
+  <h1>No assessments yet</h1>
+</div>
+    </div>
     <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
             <h3 class="modal-title">Add a mark</h3>

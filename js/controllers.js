@@ -18,9 +18,11 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
                 xhr.setRequestHeader("Authorization", "Basic" + " " + btoa(user.name + ":" + user.password));
             },
             success: function (data) {
-                console.log(data);
-                localStorage['gpa_user'] = JSON.stringify(data);
-                console.log('call');
+                if (data['gpa_user'] != 'null') {
+                    localStorage['gpa_user'] = JSON.stringify(data['gpa_user']);
+                } else {
+                    localStorage['gpa_user'] = JSON.stringify({});
+                }
                 $scope.$apply(function () {
                      $location.path('term');
                 });
@@ -84,28 +86,49 @@ trackerAppControllers.controller("TermCtrl", ["$scope", function ($scope) {
 
 trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", function ($scope, $routeParams) {
     //get termName
-    var term = $routeParams.termName;
+    $scope.term = $routeParams.termName;
     //get course list from DB
-    $scope.courses = get_courses(term);
+    $scope.courses = get_courses($scope.term);
+
 
     $scope.addCourse=function(course, goal){
         $scope.courses.push(course);
-        add_course(term, course, goal);
+        add_course($scope.term, course, goal);
         console.log(JSON.parse(localStorage['gpa_user']));
     };
 
     $scope.deleteCourse=function(course){
         var index=$scope.courses.indexOf(course);
         $scope.courses.splice(index,1);
-        delete_course(term, course);
+        delete_course($scope.term, course);
     };
 }]);
 
-trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", function ($scope, $modal) {
-    //var data = {'2014': {'cp': {'goal': 80, 'distance': 80, 'details': {'midterm': {'list': {'m1': 80, 'm2': 80}}, 'quizzes': {'list': {'q1': 80, 'q2': 70}}}}}};
-    //localStorage['gpa_user'] = JSON.stringify(data);
+trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", "$routeParams",function ($scope, $modal,$routeParams) {
+	 $scope.oneAtATime = true;
+   // var data = {'2014':
+					// {'cp' :
+						// {'goal': 10,
+						// 'distance': 10,
+						// 'details':
+							// {'midterm':
+								// {'weight': 20,
+								// 'overall': 20,
+								// 'list': [10,20]
+								// },
+							// 'quizzes':
+								// {'weight': 40,
+								// 'overall': 40,
+								// 'list': [15,88]
+								// }
+							// }
+						// }
+					// }
+				// };
+    // localStorage['gpa_user'] = JSON.stringify(data);
     //$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
-    var getAssess = get_assessments('2014', 'cp');
+	console.log($routeParams);
+    var getAssess = get_assessments($routeParams.termName, $routeParams.courseName);
     var assessment = [];
     for (var i in getAssess) {
         var a = {};
@@ -113,34 +136,46 @@ trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", functio
         assessment.push(a); // ->> [ {'name': as[i]} ]
     }
     $scope.assessments = assessment; //-->> [ {'name': 'miderm'}, {'name': 'quizzes'} ]
-    $scope.orderProp = 'name';
+	$scope.orderProp = 'name';
 
 
+		//var getMarks = get_marks($routeParams.termName, $routeParams.courseName, "quizzes");
+		//var mark = [];
+		//for (var j = 0; j< getMarks.length; j++) {
+		//	var b = {};
+		//	b['name'] = 'sdf'; //->> {'name': q1}
+		//	b['mark'] = getMarks[j]; // ->> {'mark': as[i]}
+		//	mark.push(b); // ->> [ {object} ]
+		//}
+		//$scope.items = mark; //-->> [ {'name': 'q1', 'mark': 11}]
+		//$scope.orderProp = 'name';
+		  //$scope.items = ['item1', 'item2', 'item3'];
+	//$scope.items = ['ghfhg'];
+	$scope.showMarks = function(as_name) {
+        var x = get_marks($routeParams.termName, $routeParams.courseName, as_name);
+        $scope.items = x;
+        return x;
+    };
+	//indicates whether the assessment is open for arrow direction
+	$scope.status = {
+    isFirstOpen: true,
+    isFirstDisabled: false
+  };
 
-	var getMarks = get_marks('2014', 'cp', 'quizzes');
-    var keys = Object.keys(getMarks);
-    console.log(keys.length == getMarks.length);
-    var mark = [];
-    for (var j = 0; j< keys.length; j++) {
-        var b = {};
-        console.log(keys[j], getMarks[keys[j]]);
-        b['name'] = keys[j]; //->> {'name': q1}
-        b['mark'] = getMarks[keys[j]]; // ->> {'mark': as[i]}
-        mark.push(b); // ->> [ {object} ]
-    }
-    $scope.items = mark; //-->> [ {'name': 'q1', 'mark': 11}]
-    $scope.orderProp = 'name';
-	  //$scope.items = ['item1', 'item2', 'item3'];
-  $scope.open = function (size) {
-
+  $scope.open = function (size, as_name) {
+	$scope.as_name=as_name;
     var modalInstance = $modal.open({
       templateUrl: 'myModalContent.html',
       controller: 'ModalInstanceCtrl',
+	  //scope: $scope.as_name,
       size: size,
       resolve: {
         items: function () {
           return $scope.items;
-        }
+        },
+		asName: function(){
+			return $scope.as_name;
+		}
       }
     });
 
@@ -151,25 +186,23 @@ trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", functio
     });
   };
 }]);
-
-trackerAppControllers.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+//"$routeParams",function ($scope, $modal,$routeParams)
+trackerAppControllers.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, asName, $routeParams) {
 
   $scope.items = items;
+  console.log(asName);
   $scope.selected = {
-    item: $scope.items[0]
+  item: $scope.items[0]
   };
 
   $scope.ok = function () {
 	$modalInstance.close($scope.selected.item);
-    var term = "2014";
-	var course = "cp";
-	var as = "quizzes";
-	var mark = $scope.assessmentText;
-	console.log(mark);
-	add_mark(term,course,as,"q4",mark);
-	var b = {};
-	b['name'] = "q44"; //->> {'name': q1}
-    b['mark'] = mark;
+	var mark = parseFloat($scope.assessmentText);
+	var m=add_mark($routeParams.termName,$routeParams.courseName,asName,mark);
+	//var b = {};
+	//b['name'] = $scope.items.length+1; //->> {'name': q1}
+    //b['mark'] = mark;
+	b=mark;
 	$scope.items.push(b);
   };
 
@@ -177,3 +210,4 @@ trackerAppControllers.controller('ModalInstanceCtrl', function ($scope, $modalIn
     $modalInstance.dismiss('cancel');
   };
 });
+
