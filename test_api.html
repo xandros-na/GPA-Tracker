@@ -49,9 +49,9 @@
     <input type="button" name="add" value="edit" onclick="edit_we()">
     <span>input 7, 8, 9, 10 required for edit weight</span>
     <br><br><br>
-    11. Mark: <input id="m" type="text" name="weight">
+    11. index: <input id="m" type="text" name="weight">
     <br><br>
-    12. Assessment name (Quiz1): <input id="as" type="text" name="as_name">
+    12. mark: <input id="as" type="text" name="as_name">
     <br><br>
     <input type="button" name="add" value="add mark" onclick="add_m()">
     <input type="button" name="add" value="get" onclick="get_a()">
@@ -69,7 +69,7 @@
         var m = String($('#m').val());
         var as = String($('#as').val());
 
-        console.log(edit_mark(t, c, a, as, m));
+        console.log(edit_mark(t, c, a, m, as));
     }
 
     function edit_we() {
@@ -167,9 +167,9 @@
         var t = String($('#t').val());
         var c = String($('#c').val());
         var a = String($('#as_name').val());
-        var as = String($('#as').val());
+        var m = String($('#m').val());
 
-        console.log(delete_mark(t,c,a,as));
+        console.log(delete_mark(t,c,a,m));
     }
 </script>
 </body>

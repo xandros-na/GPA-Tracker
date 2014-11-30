@@ -347,8 +347,8 @@ function delete_mark(term, course, assessment, index) {
 
     var as_details = assessments[assessment];
     var list = as_details['list'];
-    if (list == null || !(name in list)) {
-        return 'no such assessment name';
+    if (list == null) {
+        return 'no assessments recorded';
     }
 
     list.splice(index, 1);
