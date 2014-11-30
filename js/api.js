@@ -272,7 +272,7 @@ function delete_assessment(term, course, assessment) {
     return 'deleted';
 }
 
-function add_mark(term, course, assessment, name, mark) {
+function add_mark(term, course, assessment, mark) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
     }
@@ -297,8 +297,8 @@ function add_mark(term, course, assessment, name, mark) {
     var as_details = assessments[assessment];
     var list = as_details['list'];
     if (list == null) { // first mark
-        var new_as = {};
-        new_as[name] = mark;
+        var new_as = [];
+        new_as.push(mark);
         list = new_as;
         as_details['list'] = list;
         as_details['overall'] = mark; // update overall mark
@@ -311,7 +311,7 @@ function add_mark(term, course, assessment, name, mark) {
         return 'success';
     }
 
-    list[name] = mark;
+    list.push(mark);
     as_details['list'] = list;
     as_details['overall'] = _update_overall(list); // update over all mark;
     assessments[assessment] = as_details;
@@ -323,7 +323,7 @@ function add_mark(term, course, assessment, name, mark) {
     return 'success';
 }
 
-function delete_mark(term, course, assessment, name) {
+function delete_mark(term, course, assessment, index) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
     }
@@ -351,9 +351,8 @@ function delete_mark(term, course, assessment, name) {
         return 'no such assessment name';
     }
 
-    delete list[name];
-    var l_keys = Object.keys(list);
-    if (l_keys.length == 0) {
+    list.splice(index, 1);
+    if (list.length == 0) {
         list = null;
         as_details['list'] = list;
         as_details['overall'] = 0; // update over all mark;
@@ -408,7 +407,7 @@ function edit_weight(term, course, assessment, weight) {
     return 'edited';
 }
 
-function edit_mark(term, course, assessment, as_name, mark) {
+function edit_mark(term, course, assessment, index, mark) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
     }
@@ -436,7 +435,7 @@ function edit_mark(term, course, assessment, as_name, mark) {
     }
 
     var contents = as_details['list'];
-    contents[as_name] = mark;
+    contents[index] = mark;
     as_details['list'] = contents;
     as_details['overall'] = _update_overall(contents); // update over all mark;
     assessments[assessment] = as_details;
@@ -479,12 +478,11 @@ function get_marks(term, course, assessment) {
 }
 
 function _update_overall(list) {
-    var keys = Object.keys(list);
     var total = 0;
-    for (var i = 0; i < keys.length; i++) {
-        total += parseFloat(list[keys[i]]);
+    for (var i = 0; i < list.length; i++) {
+        total += parseFloat(list[i]);
     }
-    return total / keys.length;
+    return total / list.length;
 }
 
 function _calc_distance(assessments, course_info) {
