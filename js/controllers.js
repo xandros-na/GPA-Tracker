@@ -72,10 +72,3 @@ trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", functi
         delete_course(term, course);
     };
 }]);
-
-trackerAppControllers.controller("AssessmentCtrl", ["$scope", "$routeParams", function ($scope, $routeParams) {
-    //get courseName
-    console.log($routeParams.courseName);
-    //get course list from DB
-    $scope.assessment = [];
-}]);
