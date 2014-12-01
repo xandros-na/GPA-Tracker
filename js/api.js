@@ -194,6 +194,10 @@ function add_assessment(term, course, name, weight) {
     var course_info = courses[course]; //{'goal': 0, 'distance': 0, 'details':null or Object}
     var assessments = course_info['details']; //{null or 'quizzes': Object}
 
+    if(assessments != null && name in assessments) {
+        return 'name already used';
+    }
+
     var as_details = {};
     as_details['weight'] = weight;
     as_details['overall'] = 0;
@@ -480,7 +484,7 @@ function get_marks(term, course, assessment) {
 
     var as_details = assessments[assessment];
     if (as_details['list'] == null) {
-        return 'nothing to get';
+        return [];
     }
 
     return as_details['list'];

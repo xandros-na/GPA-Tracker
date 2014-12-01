@@ -1,25 +1,73 @@
 <style type="text/css">
-	.list-text{
-		font-size: 150%;
-	}
-	.row-indicator{
-		position:absolute;
-		right:30px;
-		top:14px;
-	}
+    .list-text {
+        font-size: 150%;
+    }
+
+    .row-indicator {
+        position: absolute;
+        right: 30px;
+        top: 14px;
+    }
+
+    .goal-list {
+        background-color: #EFEFEF;
+        position: relative;
+        left: 20px;
+        border-radius: 10px;
+    }
+
+    .goal-input {
+        position: absolute;
+        right: 30px;
+        width: 60px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .goal-text {
+        position: relative;
+        left: 10px;
+    }
 </style>
+<!--<div ng-controller="CourseCtrl">-->
+    <!--<div ng-repeat="course in courses | orderBy: 'name'">-->
+        <!--<a class="list-group-item list-text" href="#/course/{{term}}/{{course}}">-->
+            <!--{{course}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>-->
+        <!--</a>-->
+
+        <!--<div class="goal-list">-->
+            <!--<div>-->
+                <!--<label class="goal-text">Goal</label>-->
+                <!--<span><input class="goal-input" value={{course}}></span>-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<label class="goal-text">Distance from goal</label>-->
+                <!--<span><input class="goal-input" value={{course}} disabled></span>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<button class="glyphicon glyphicon-remove" type="button" value="delete"-->
+                <!--ng-click="deleteCourse(course)"></button>-->
+    <!--</div>-->
+    <!--<div ng-hide="courses.length">-->
+        <!--<div class="page-header">-->
+            <!--<h1>No courses yet</h1>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 <div ng-controller="CourseCtrl">
-	<div  ng-repeat="course in courses | orderBy: 'name'">
-		<a class="list-group-item list-text" href="#/course/{{term}}/{{course}}">
-			{{course}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
-		</a>
-<button class="glyphicon glyphicon-remove" type="button" value="delete" ng-click="deleteCourse(course)"></button>
-	</div>
+    <div ng-repeat="course in courses | orderBy: 'name'">
+        <a class="list-group-item list-text" href="#/course/{{term}}/{{course}}">
+            {{course}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
+        </a>
+        <button class="glyphicon glyphicon-remove" type="button" value="delete"
+                ng-click="deleteCourse(course)"></button>
+    </div>
     <div ng-hide="courses.length">
         <div class="page-header">
-  <h1>No courses yet</h1>
-</div>
+            <h1>No courses yet</h1>
+        </div>
     </div>
-    <button ng-click="addCourse(newCourse, goal)">add Course</button><input ng-model="newCourse" type="text" placeholder="Course name">
+    <button ng-click="addCourse(newCourse, goal)">add Course</button>
+    <input ng-model="newCourse" type="text" placeholder="Course name">
     <input ng-model="goal" type="text" placeholder="Goal">
 </div>
