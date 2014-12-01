@@ -71,9 +71,15 @@ trackerAppControllers.controller("TermCtrl", ["$scope", function ($scope) {
     //get term list from DB
 
     $scope.terms = get_terms();
-    $scope.addTerm = function (term) {
+    $scope.details = [];
+    $scope.addTerm = function (term, goal) {
         $scope.terms.push(term);
-        add_term(term);
+        add_term(term, goal);
+        var struct = {};
+        var td = get_term_details(term);
+        struct['goal'] = td['goal'];
+        struct['gpa'] = td['gpa'];
+        $scope.details.push(struct);
         console.log(JSON.parse(localStorage['gpa_user']));
     };
 

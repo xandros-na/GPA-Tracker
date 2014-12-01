@@ -1,25 +1,33 @@
 <style type="text/css">
-	.list-text{
-		font-size: 150%;
-	}
-	.row-indicator{
-		position:absolute;
-		right:30px;
-		top:14px;
-	}
+    .list-text {
+        font-size: 150%;
+    }
+
+    .row-indicator {
+        position: absolute;
+        right: 30px;
+        top: 14px;
+    }
 </style>
 <div ng-controller="TermCtrl">
-	<div  ng-repeat="term in terms | orderBy: 'name'">
-		<a class="list-group-item list-text" href="#/courseList/{{term}}">
-			{{term}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
-		</a>
+    <div ng-repeat="term in terms | orderBy: 'name'">
+        <a class="list-group-item list-text" href="#/courseList/{{term}}">
+            {{term}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
+        </a>
         <button class="glyphicon glyphicon-remove" type="button" value="delete" ng-click="deleteTerm(term)"></button>
-	</div>
+        <div ng-repeat="detail in details" class="list-group-item">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Goal: {{detail.goal}}">
+            </div>
+            <a class="list-group-item">GPA: {{detail.gpa}}</a>
+        </div>
+    </div>
     <div ng-hide="terms.length">
         <div class="page-header">
-  <h1>No terms yet</h1>
-</div>
+            <h1>No terms yet</h1>
+        </div>
     </div>
-    <button ng-click="addTerm(newTerm, goal)">add term</button><input ng-model="newTerm" type="text"><input ng-model="goal" type="text">
+    <button ng-click="addTerm(newTerm, goal)">add term</button>
+    <input ng-model="newTerm" type="text"><input ng-model="goal" type="text">
 </div>
 
