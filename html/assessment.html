@@ -12,41 +12,86 @@
 
     }
 </style>
+
+
 <div ng-controller="AssessmentsCtrl">
-    <accordion close-others="oneAtATime">
-        <accordion-group ng-repeat="assessment in assessments | orderBy: 'name'" is-open="status.open">
-            <accordion-heading>
-                {{assessment.name}} <i class="pull-right glyphicon"
-                                       ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-				
-			</accordion-heading>
+
+	 <accordion close-others="oneAtATime">
+        <accordion-group ng-repeat="assessment in assessments" is-open="status.open">
+           <!-- <div ng-show="!showActions" ng-swipe-left="showActions = true">-->
+				<accordion-heading >
+					{{assessment}}  <i class="pull-right glyphicon"
+										   ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					<button class="btn btn-danger" ng-click="deleteAssess(assessment.name,$index)"> - </button>
+				</accordion-heading>
+			<!--</div>
+			<div ng-show="showActions" ng-swipe-right="showActions = false">
+
+			</div>-->
             <!--<div ng-controller="MarksCtrl">-->
-            <div ng-repeat="b in showMarks(assessment.name) track by $index" class="list-group-item">
-                <a ng-click= "open('sm')" class="list-group-item">{{assessment.name[0]}}{{$index +1}}    {{b}}</a>
+            <div ng-repeat="b in showMarks(assessment) track by $index" class="list-group-item">
+                <a ng-click= "editMark('sm',assessment,$index)" class="list-group-item">{{assessment[0]}}{{$index +1}}    {{b}}</a>
             </div>
             <!--</div>-->
             <br>
             <!--<button class="btn btn-primary" ng-click="addItem()">Add +</button>-->
-            <button class="btn btn-primary" ng-click="open('sm', assessment.name)" ng-model=assessment.name>Add +</button>
+            <button class="btn btn-primary" ng-click="addMark('sm', assessment)" ng-model=assessment.name>Add +</button>
             <!--<div ng-repeat="item in items">{{item}}</div>-->
         </accordion-group>
-
     </accordion>
-        <div ng-hide="assessments.length">
-        <div class="page-header">
-  <h1>No assessments yet</h1>
-</div>
-    </div>
-    <script type="text/ng-template" id="myModalContent.html">
+
+
+	<button id="addAssessment" class="btn btn-primary" ng-click="addNewType('sm')">+</button>
+
+
+	<!--add new mark modal-->
+    <script type="text/ng-template" id="addMark.html">
         <div class="modal-header">
             <h3 class="modal-title">Add a mark</h3>
         </div>
         <div class="modal-body">
-            <input id="mark" class="form-control" ng-model="assessmentText" placeholder="Mark" required>
+            <input class="form-control" ng-model="newMark" placeholder="New Mark" required>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-            <button id="addMark" type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+            <button type="button" class="btn btn-primary" ng-click="add()">Add+</button>
         </div>
     </script>
+
+	<!--edit/delete mark modal-->
+	<script type="text/ng-template" id="editMark.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit Mark</h3>
+        </div>
+        <div class="modal-body">
+            <input class="form-control" ng-model="editTheMark" placeholder="New Mark" required>
+        </div>
+        <div class="modal-footer">
+			<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <button type="button" class="btn btn-default" ng-click="remove()">Delete</button>
+            <button type="button" class="btn btn-primary" ng-click="editTheMark()">Edit</button>
+        </div>
+    </script>
+
+	<!--add new assessment type modal-->
+	<script type="text/ng-template" id="newAssessment.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Add New Assessment</h3>
+        </div>
+        <div class="modal-body">
+
+			<input id="newAssess" class="form-control"  ng-model="newAssess.name" placeholder="New Assessment Type" required>
+			<br>
+			<input id="weight" class="form-control"  ng-model="newAssess.weight" placeholder="Weight" required>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <button id="addMark" type="button" class="btn btn-primary" ng-click="add()">Add +</button>
+        </div>
+    </script>
+
+
+
 </div>

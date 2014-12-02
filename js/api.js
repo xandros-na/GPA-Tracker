@@ -19,7 +19,7 @@ function add_term(term, goal) {
     var terms = JSON.parse(localStorage['gpa_user']);
     if (terms == null) {
         var new_term = {};
-        new_term[term] = {'goal': goal, 'gpa': 0};
+        new_term[term] = {'goal': goal, 'gpa': goal, 'courses': null};
         localStorage['gpa_user'] = JSON.stringify(new_term);
         return 'success';
     }
@@ -28,7 +28,7 @@ function add_term(term, goal) {
         return 'term already exists';
     }
 
-    terms[term] = {'goal': goal, 'gpa': 0, 'courses': null};
+    terms[term] = {'goal': goal, 'gpa': goal, 'courses': null};
     localStorage['gpa_user'] = JSON.stringify(terms);
     return 'success';
 }
@@ -89,7 +89,7 @@ function delete_term(term) {
 
     var t_keys = Object.keys(terms);
     if (t_keys.length == 0) { // set to null so add_term(term) will work properly
-        terms = null;
+        terms = {};
         localStorage['gpa_user'] = JSON.stringify(terms);
         return 'made null';
     }
@@ -180,7 +180,7 @@ function delete_course(term, course) {
     return 'course deleted';
 }
 
-function edit_course(term, course, name, goal) {
+function edit_course(term, course, goal) {
     if (_is_undefined(localStorage['gpa_user'])) {
         return 'nothing in storage';
     }
@@ -202,7 +202,8 @@ function edit_course(term, course, name, goal) {
         } else {
             contents['distance'] = goal;
         }
-        courses[name] = contents;
+        courses[course] = contents;
+		console.log(courses[course]);
         term_details['details'] = courses;
         terms[term] = term_details;
         localStorage['gpa_user'] = JSON.stringify(terms);
