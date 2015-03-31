@@ -11,14 +11,13 @@ body {
 }
 
 .headings {
-    float: left;
-    overflow: hidden;
+    /*float: left;*/
+    text-align: center;
     margin: 10px 0px 0px 10px;
 }
 
 .logout-button {
     float: right;
-    overflow: hidden;
     margin: 12px 12px 0px 0px;
 }
 
@@ -51,14 +50,28 @@ body {
     float: right;
 }
 
+.back-button {
+    float:left;
+    margin: 12px 0px 0px 12px;
+}
+
 .theitems {
     background-color: #fff;
     margin-top: 20px;
     padding: 20px;
 }
 
-.fa {
+.fa-plus-circle {
     margin-top: 20px;
     float: right;
     color: #ff4081;
+}
+
+.delete-button {
+    float: right;
+}
+
+.fa-minus-circle {
+    color: #ff8a65;
+    margin: 12px 12px 0px 0px;
 }

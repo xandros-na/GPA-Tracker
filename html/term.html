@@ -2,8 +2,9 @@
     <!--navigation bar-->
     <div class="wrapper">
         <div class="navbar">
-            <p class="headings">Welcome Back!</p>
             <a class="glyphicon glyphicon-off logout-button" ng-click="logOut()"></a>
+            <p class="headings">Welcome Back!</p>
+
         </div>
         <div class="theitems" ng-repeat="term in terms | orderBy: 'name'">
             <a class="list-group-item list-text" href="#/courseList/{{term}}">
