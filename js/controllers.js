@@ -24,12 +24,17 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
                     xhr.setRequestHeader("Authorization", "Basic" + " " + btoa(username_or_token + ":" + user.password));
                 },
                 success: function (data) {
-                    console.log(JSON.stringify(data));
+
+                    localStorage['token'] = JSON.stringify(data['token']);
+                    console.log(data['gpa_user']);
                     if (data['gpa_user'] != 'null') {
                         localStorage['gpa_user'] = JSON.stringify(data['gpa_user']);
                     } else {
+                        console.log('here');
                         localStorage['gpa_user'] = JSON.stringify({});
                     }
+
+
                     $scope.$apply(function () {
                         $location.path('term');
                     });
@@ -47,6 +52,7 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
                 dataType: 'json',
                 success: function (data) {
                     localStorage['token'] = JSON.stringify(data['token']);
+					alert("Registration successful!");
                 }
             });
         }
@@ -71,39 +77,80 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", f
     //get term list from DB
 
     $scope.terms = get_terms(); //[2014, 2015]
-	$scope.ti = JSON.parse(localStorage['gpa_user']);
+    $scope.ti = JSON.parse(localStorage['gpa_user']);
 
-	$scope.open=function(){ //adding a term
-		var modalInstance = $modal.open({
+    $scope.open = function () { //adding a term
+        var modalInstance = $modal.open({
             templateUrl: 'addTerm.html',
             controller: 'addTermCtrl',
             size: "sm",
         });
-		modalInstance.result.then(function (termInfo) {
-		  $scope.termInfo = termInfo;
-		  $scope.updateTerm();
-		});
-	};
+        modalInstance.result.then(function (termInfo) {
+            $scope.termInfo = termInfo;
+            $scope.updateTerm();
+        });
+    };
 
-	$scope.updateTerm = function() {
-		add_term($scope.termInfo.name, $scope.termInfo.goal);
-		$scope.terms = get_terms(); //[2014, 2015]
-		$scope.ti = JSON.parse(localStorage['gpa_user']);
-	};
+    $scope.updateTerm = function () {
+        add_term($scope.termInfo.name, $scope.termInfo.goal);
+        $scope.terms = get_terms(); //[2014, 2015]
+        $scope.ti = JSON.parse(localStorage['gpa_user']);
+    };
 
-	$scope.updateGoal=function(term,goalChanger){
-		console.log(term, goalChanger);
-		edit_term_goal(term, goalChanger);
-	    $scope.terms = get_terms(); //[2014, 2015]
-		$scope.ti = JSON.parse(localStorage['gpa_user']);
-	};
+    $scope.updateGoal = function (term, goalChanger) {
+        edit_term_goal(term, goalChanger);
+        $scope.terms = get_terms(); //[2014, 2015]
+        $scope.ti = JSON.parse(localStorage['gpa_user']);
+    };
 
-	$scope.logoutUser = function() {
-		delete localStorage['gpa_user'];
-		delete localStorage['token'];
-		$location.path('login');
-	};
+    $scope.logoutUser = function () {
+		var username = JSON.parse(localStorage['token']);
+        console.log(username);
+        var stuff = JSON.parse(localStorage['gpa_user']);
+        var d = JSON.stringify({'data': {'gpa_user': stuff}});
+
+        $.ajax({
+            url: 'http://cp317api.pythonanywhere.com/api/upload',
+            type: 'POST',
+            contentType: 'application/json',
+            data: d,
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic" + " " + btoa(username + ":" + ""));
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+        delete localStorage['gpa_user'];
+        delete localStorage['token'];
+        $location.path('login');
+    };
+
+    $scope.logOut = function () { //adding a term
+        var modalInstance = $modal.open({
+            templateUrl: 'logOut.html',
+            controller: 'logOutCtrl',
+            size: "sm",
+        });
+        modalInstance.result.then(function (promise) {
+            $scope.promise = promise;
+            $scope.logoutUser();
+        });
+    };
+
+
 }]);
+
+trackerAppControllers.controller('logOutCtrl', function ($scope, $modalInstance, $routeParams) {
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.upload = function () {
+        $modalInstance.close("yes");
+    };
+});
 
 trackerAppControllers.controller('addTermCtrl', function ($scope, $modalInstance, $routeParams) {
     $scope.cancel = function () {
@@ -116,46 +163,68 @@ trackerAppControllers.controller('addTermCtrl', function ($scope, $modalInstance
 });
 
 
-trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", "$location" ,"$modal",  function ($scope ,$routeParams, $location , $modal) {
-	//get termName
+trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", "$location" , "$modal", function ($scope, $routeParams, $location, $modal) {
+    //get termName
     $scope.term = $routeParams.termName;
     //get course list from DB
     $scope.courses = get_courses($scope.term);
-	$scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
-	$scope.open=function(){ //adding a term
-		var modalInstance = $modal.open({
+    $scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
+    $scope.open = function () { //adding a term
+        var modalInstance = $modal.open({
             templateUrl: 'addCourse.html',
             controller: 'addCourseCtrl',
             size: "sm",
         });
-		modalInstance.result.then(function (courseInfo) {
-		  $scope.courseInfo = courseInfo;
-		  $scope.updateCourse();
-		});
-	};
+        modalInstance.result.then(function (courseInfo) {
+            $scope.courseInfo = courseInfo;
+            $scope.updateCourse();
+        });
+    };
 
-	$scope.updateCourse = function() {
-		add_course($scope.term, $scope.courseInfo.name, $scope.courseInfo.goal);
-		$scope.courses = get_courses($scope.term);
-		$scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
-	};
+    $scope.updateCourse = function () {
+        add_course($scope.term, $scope.courseInfo.name, $scope.courseInfo.goal);
+        $scope.courses = get_courses($scope.term);
+        $scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
+    };
 
-	$scope.updateGoal=function(course,goalChanger){
-		edit_course($scope.term, course, goalChanger);
-	    $scope.courses = get_courses($scope.term);
-		$scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
-	};
+    $scope.updateGoal = function (course, goalChanger) {
+        edit_course($scope.term, course, goalChanger);
+        $scope.courses = get_courses($scope.term);
+        $scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
+    };
 
-	$scope.relocate = function() {
+    $scope.relocate = function () {
         $location.path('term');
-	};
+    };
 
-	$scope.deleteTerm = function(){
-		delete_term($scope.term);
-		$scope.relocate();
-	};
+    $scope.deleteTerm = function () {
+        delete_term($scope.term);
+        $scope.relocate();
+    };
 
+    $scope.confirmDelete = function () { //adding a term
+        var modalInstance = $modal.open({
+            templateUrl: 'confirmDeleteTerm.html',
+            controller: 'confirmDeleteTermCtrl',
+            size: "sm",
+        });
+        modalInstance.result.then(function (promise) {
+            if (promise == "yes") {
+                $scope.deleteTerm();
+            }
+        });
+    };
 }]);
+
+trackerAppControllers.controller('confirmDeleteTermCtrl', function ($scope, $modalInstance, $routeParams) {
+    $scope.no = function () {
+        $modalInstance.dismiss('no');
+    };
+
+    $scope.yes = function () {
+        $modalInstance.close("yes");
+    };
+});
 
 trackerAppControllers.controller('addCourseCtrl', function ($scope, $modalInstance, $routeParams) {
     $scope.cancel = function () {
@@ -167,69 +236,182 @@ trackerAppControllers.controller('addCourseCtrl', function ($scope, $modalInstan
     };
 });
 
-trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", "$routeParams", function ($scope, $modal, $routeParams) {
-    add_assessment($routeParams.termName, $routeParams.courseName, "quizzes", "10");
 
+trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", "$routeParams", "$location", function ($scope, $modal, $routeParams, $location) {
     $scope.oneAtATime = true;
-    console.log($routeParams);
-    var getAssess = get_assessments($routeParams.termName, $routeParams.courseName);
-    var assessment = [];
-    for (var i in getAssess) {
-        var a = {};
-        a['name'] = getAssess[i]; // ->> {'name': as[i]}
-        assessment.push(a); // ->> [ {'name': as[i]} ]
-    }
-    $scope.assessments = assessment; //-->> [ {'name': 'miderm'}, {'name': 'quizzes'} ]
-    $scope.orderProp = 'name';
+    //$scope.assessments = [ {'name': 'zzz'}, {'name': 'aaa'} ]
+    $scope.term = $routeParams.termName;
+    $scope.course = $routeParams.courseName;
 
-    $scope.showMarks = function (as_name) {
-        var x = get_marks($routeParams.termName, $routeParams.courseName, as_name);
-        $scope.items = x;
-        return x;
+    $scope.assessments = Object.keys(get_assessments($scope.term, $scope.course)); // {'midterm : ..., 'quizzes: ...}
+    var x = JSON.parse(localStorage['gpa_user']);
+    $scope.ai = x[$scope.term]['courses'][$scope.course]['details'];
+
+    $scope.showMarks = function (assessment) {
+        return get_marks($scope.term, $scope.course, assessment);
     };
 
-    $scope.open = function (size, as_name) {
-        $scope.as_name = as_name;
+    $scope.relocate = function () {
+        $location.path("courseList/" + $scope.term);
+    };
+
+    $scope.deleteCourse = function () {
+        delete_course($scope.term, $scope.course);
+        $scope.relocate();
+    };
+
+    $scope.addNewType = function (size) {
+
         var modalInstance = $modal.open({
-            templateUrl: 'myModalContent.html',
-            controller: 'ModalInstanceCtrl',
-            //scope: $scope.as_name,
+            templateUrl: 'newAssessment.html',
+            controller: 'newAssessmentCtrl',
             size: size,
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                },
-                asName: function () {
-                    return $scope.as_name;
-                }
+        });
+
+        modalInstance.result.then(function (newAssessment) {
+            $scope.newAssessment = newAssessment;
+            $scope.updateAssessment();
+        });
+    };
+
+    $scope.updateAssessment = function () {
+
+        add_assessment($scope.term, $scope.course, $scope.newAssessment.name, $scope.newAssessment.weight);
+        $scope.assessments = Object.keys(get_assessments($scope.term, $scope.course));
+        var x = JSON.parse(localStorage['gpa_user']);
+        $scope.ai = x[$scope.term]['courses'][$scope.course]['details'];
+    };
+
+    $scope.addMark = function (size, assessment) {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'addMark.html',
+            controller: 'addMarkCtrl',
+            size: size,
+        });
+
+        modalInstance.result.then(function (newMark) {
+            $scope.newMark = newMark;
+            $scope.updateMark(assessment);
+        });
+    };
+
+    $scope.updateMark = function (assessment) {
+        add_mark($scope.term, $scope.course, assessment, $scope.newMark);
+        $scope.assessments = Object.keys(get_assessments($scope.term, $scope.course));
+        var x = JSON.parse(localStorage['gpa_user']);
+        $scope.ai = x[$scope.term]['courses'][$scope.course]['details'];
+    };
+
+
+    $scope.editMark = function (size, assessment, iMark) {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'editMark.html',
+            controller: 'editMarkCtrl',
+            size: size
+        });
+
+        modalInstance.result.then(function (edit) {
+            //$scope.newMark=newMark;
+            if (edit == 'remove') {
+                delete_mark($scope.term, $scope.course, assessment, iMark);
+                $scope.assessments = Object.keys(get_assessments($scope.term, $scope.course));
+                var x = JSON.parse(localStorage['gpa_user']);
+                $scope.ai = x[$scope.term]['courses'][$scope.course]['details'];
+            }
+            else {
+                $scope.markEdited = edit;
+                $scope.updateEditMark(assessment, iMark);
             }
         });
+    };
 
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
+    $scope.updateEditMark = function (assessment, iMark) {
+        edit_mark($scope.term, $scope.course, assessment, iMark, $scope.markEdited);
+        $scope.assessments = Object.keys(get_assessments($scope.term, $scope.course));
+        var x = JSON.parse(localStorage['gpa_user']);
+        $scope.ai = x[$scope.term]['courses'][$scope.course]['details'];
+    };
+
+    $scope.confirmDelete = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'deleteCourse.html',
+            controller: 'deleteCourseCtrl',
+            size: "sm",
+        });
+
+        modalInstance.result.then(function (promise) {
+            if (promise == "yes") {
+                $scope.deleteCourse();
+            }
         });
     };
+
 }]);
 
-trackerAppControllers.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, asName, $routeParams) {
-
-    $scope.items = items;
-    console.log(asName);
-    $scope.selected = {
-        item: $scope.items[0]
+trackerAppControllers.controller('deleteCourseCtrl', function ($scope, $modalInstance, $routeParams) {
+    $scope.yes = function () {
+        $modalInstance.close("yes");
     };
 
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-        var mark = parseFloat($scope.assessmentText);
-        var m = add_mark($routeParams.termName, $routeParams.courseName, asName, mark);
-        b = mark;
-        $scope.items.push(b);
+    $scope.no = function () {
+        $modalInstance.dismiss("no");
+    };
+
+});
+
+trackerAppControllers.controller('editMarkCtrl', function ($scope, $modalInstance, $routeParams) {
+
+    $scope.edit = function () {
+        //console.log($scope.editTheMark);
+        $modalInstance.close($scope.editTheMark);
+    };
+
+    $scope.remove = function () {
+        $modalInstance.close('remove');
+
     };
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 });
+
+trackerAppControllers.controller('addMarkCtrl', function ($scope, $modalInstance, $routeParams) {
+
+    $scope.add = function () {
+        $modalInstance.close($scope.newMark);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+
+trackerAppControllers.controller('addMarkCtrl', function ($scope, $modalInstance, $routeParams) {
+
+    $scope.add = function () {
+        $modalInstance.close($scope.newMark);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+trackerAppControllers.controller('newAssessmentCtrl', function ($scope, $modalInstance, $routeParams) {
+
+    $scope.add = function () {
+        $modalInstance.close($scope.newAssess);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
+
+
+

@@ -2,6 +2,13 @@
 	#passwordMessage{
 		color:red;
 	}
+	
+	.switch-button{
+		position: absolute;
+		margin-top: 10px;
+		font-size: 120%
+	}
+	
 </style>
 <div  ng-controller="SignInFormCtrl">
 	<form ng-submit="submitForm(user)" class="form-signin">
@@ -12,6 +19,6 @@
 		<input type="password" ng-model="user.repassword"  class="form-control" placeholder="Re-enter password"><span id="passwordMessage" ng-hide=(user.password==user.repassword)>Does not match the previous entry</span>
 		</div>
 		<input class="btn btn-lg btn-primary btn-block sign-button" type="submit" value={{submitButton}} ng-model="submitButton">
-		<a ng-click="contentSwitch()">{{switch}}</a>
+		<a class="switch-button" ng-click="contentSwitch()">{{switch}}</a>
 	</form>
 </div>

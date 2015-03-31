@@ -1,93 +1,38 @@
-<!-- <style type="text/css">
-	.list-text{
-		font-size: 150%;
-	}
-	.row-indicator{
-		position:absolute;
-		right:30px;
-		top:14px;
-	}
-		.navbar{
-		background-color:#749CD9;
-		text-align:center;
-	}
-	.goal-list{
-		background-color: #EFEFEF;
-		position: relative;
-		left: 20px;
-		border-radius:10px;
-	}
-	
-	.goal-text{
-		position:relative;
-		left:10px;
-	}
-	
-	.goal-input{
-		position:absolute;
-		right:30px;
-		width:60px;
-		border-radius: 10px;
-		text-align:center;
-	}
-	
-	.logout-button{
-		position: absolute;
-		top:14px;
-		right: 17px;
-		font-size: 130%;
-		color:white;
-		z-index:1;
-	}
-	p{
-		font-size: 150%;
-		color:white;
-		font-weight:bold;
-		position:relative;
-		top:7px;
-	}
-	.add-entry {
-	   padding: 1px;
-	   margin: 10px;
-	   color: white;
-	   border: 2px dashed white;
-	   border-radius: 10px;
-	   text-align:center;
-	}
-</style> -->
 <div ng-controller="TermCtrl">
-	<!--navigation bar-->
+    <!--navigation bar-->
     <div class="wrapper">
-	<div class="navbar">
-		<p class="headings">Welcome Back!</p>
-		<a class="glyphicon glyphicon-off logout-button" ng-click="logoutUser()"></a>
-	</div>
-	<div  ng-repeat="term in terms | orderBy: 'name'">
-		<a class="list-group-item list-text" href="#/courseList/{{term}}">
-			{{term}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
-		</a>
-		<!--goal list and distance from goal for a single term-->
-		<div class="goal-list">
-			<div class="row">
-				<label class="goal-text col-md-10">Goal</label>
-				<input class="goal-input col-md-2" placeholder="{{ti[term]['goal']}}" ng-model="goalChanger" ng-change="updateGoal(term,goalChanger)"></input>
-			</div>
-			<div class="row">
-				<label class="goal-text  col-md-10">Distance from goal</label>
-				<input class="goal-input col-md-2" value={{ti[term]['gpa']}} disabled></input>
-			</div>
-		</div>
-	</div>
-    
-	<div class="add-entry" ng-click="open()">
-		<p>+</p>
-	</div>
-	<script type="text/ng-template" id="addTerm.html">
+        <div class="navbar">
+            <p class="headings">Welcome Back!</p>
+            <a class="glyphicon glyphicon-off logout-button" ng-click="logOut()"></a>
+        </div>
+        <div class="theitems" ng-repeat="term in terms | orderBy: 'name'">
+            <a class="list-group-item list-text" href="#/courseList/{{term}}">
+                {{term}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
+            </a>
+            <!--goal list and distance from goal for a single term-->
+            <div class="goal-list">
+                <div class="row">
+                    <label class="goal-text">Goal</label>
+                    <span><input class="goal-input" placeholder="{{ti[term]['goal'] | number:1}}" ng-model="goalChanger"
+                                 ng-change="updateGoal(term,goalChanger)"></input></span>
+                </div>
+                <div class="row">
+                    <label class="goal-text">Grade</label>
+                    <span><input class="goal-input" value="{{ti[term]['gpa'] | number:1}}" disabled></input></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-entry" ng-click="open()">
+            <i class="fa fa-plus-circle fa-3x"></i>
+        </div>
+    </div>
+    <script type="text/ng-template" id="addTerm.html">
         <div class="modal-header">
             <h3 class="modal-title">Add a term</h3>
         </div>
         <div class="modal-body">
-			<input class="form-control" ng-model="term.name" placeholder="Term name" required>
+            <input class="form-control" ng-model="term.name" placeholder="Term name" required>
             <input class="form-control" ng-model="term.goal" placeholder="Goal" required>
         </div>
         <div class="modal-footer">
@@ -95,6 +40,15 @@
             <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
         </div>
     </script>
-    </div>
+    <script type="text/ng-template" id="logOut.html">
+        <div class="modal-header">
+            <h4 class="modal-title">Do you want to log out and backup your files?</h4>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" ng-click="upload()">Yes</button>
+        </div>
+    </script>
 </div>
 
