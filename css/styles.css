@@ -30,9 +30,18 @@ body {
     padding: 20px;
 }
 
-.list-group-item {
+.list-group-item, .panel-default > .panel-heading {
     margin-top: 0px;
     background-color: #dcedc8;
+}
+
+.marks {
+    background-color: #fff;
+    margin: 5px;
+}
+
+.mark {
+    float: right;
 }
 
 .row {
@@ -74,4 +83,8 @@ body {
 .fa-minus-circle {
     color: #ff8a65;
     margin: 12px 12px 0px 0px;
+}
+
+.panel-group {
+    margin-bottom: 0;
 }
