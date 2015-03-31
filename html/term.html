@@ -1,4 +1,4 @@
-<style type="text/css">
+<!-- <style type="text/css">
 	.list-text{
 		font-size: 150%;
 	}
@@ -54,11 +54,12 @@
 	   border-radius: 10px;
 	   text-align:center;
 	}
-</style>
+</style> -->
 <div ng-controller="TermCtrl">
 	<!--navigation bar-->
+    <div class="wrapper">
 	<div class="navbar">
-		<p>Welcome Back!</p>
+		<p class="headings">Welcome Back!</p>
 		<a class="glyphicon glyphicon-off logout-button" ng-click="logoutUser()"></a>
 	</div>
 	<div  ng-repeat="term in terms | orderBy: 'name'">
@@ -67,13 +68,13 @@
 		</a>
 		<!--goal list and distance from goal for a single term-->
 		<div class="goal-list">
-			<div>
-				<label class="goal-text">Goal</label>
-				<span><input class="goal-input" placeholder="{{ti[term]['goal']}}" ng-model="goalChanger" ng-change="updateGoal(term,goalChanger)"></input></span>
+			<div class="row">
+				<label class="goal-text col-md-10">Goal</label>
+				<input class="goal-input col-md-2" placeholder="{{ti[term]['goal']}}" ng-model="goalChanger" ng-change="updateGoal(term,goalChanger)"></input>
 			</div>
-			<div>
-				<label class="goal-text">Distance from goal</label>
-				<span><input class="goal-input" value={{ti[term]['gpa']}} disabled></input></span>
+			<div class="row">
+				<label class="goal-text  col-md-10">Distance from goal</label>
+				<input class="goal-input col-md-2" value={{ti[term]['gpa']}} disabled></input>
 			</div>
 		</div>
 	</div>
@@ -94,5 +95,6 @@
             <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
         </div>
     </script>
+    </div>
 </div>
 
