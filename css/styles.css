@@ -88,3 +88,8 @@ body {
 .panel-group {
     margin-bottom: 0;
 }
+
+a {
+    text-decoration: none !important;
+
+}

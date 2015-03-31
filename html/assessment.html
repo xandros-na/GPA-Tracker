@@ -1,5 +1,4 @@
-
-<div ng-controller="AssessmentsCtrl">
+<div ng-controller="AssessmentsCtrl" xmlns="http://www.w3.org/1999/html">
 	<!--navigation bar-->
     <div class="wrapper">
 	<div class="navbar">
@@ -8,20 +7,21 @@
         <p class="headings">{{course}}</p>
 	</div>
 	 <accordion close-others="oneAtATime">
-        <accordion-group ng-repeat="assessment in assessments" is-open="status.open">
+        <accordion-group class="theitems" ng-repeat="assessment in assessments" is-open="status.open">
 				<accordion-heading >
 					{{assessment}}
 					<span style="float:right;" class="overall-weight">
 					<label>Overall: </label>
-					<a class="btn btn-success">{{ai[assessment]['overall'] | number:1}}</a>
+					<a>{{ai[assessment]['overall'] | number:1}}</a>
 					<label>Weight: </label>
-					<a class="btn btn-danger">{{ai[assessment]['weight'] | number:1}}</a>
+					<a>{{ai[assessment]['weight'] | number:1}}</a>
 					</span>
 					
 				</accordion-heading>
 
-            <div ng-repeat="b in showMarks(assessment) track by $index" class="list-group-item">
-                <a ng-click= "editMark('sm',assessment,$index)" class="list-group-item">{{assessment[0]}}{{$index +1}}    {{b | number:1}}</a>
+            <div ng-repeat="b in showMarks(assessment) track by $index">
+                <a ng-click= "editMark('sm',assessment,$index)" class="list-group-item marks">{{assessment[0]}}{{$index +1}}
+                    <span class="mark">{{b | number:1}}</span></a>
             </div>
             <br>
             <button class="btn btn-primary" ng-click="addMark('sm', assessment)" ng-model=assessment.name>Add +</button>
@@ -72,7 +72,7 @@
         <div class="modal-body">
           
 			<input id="newAssess" class="form-control"  ng-model="newAssess.name" placeholder="New Assessment Type" required>
-			<br></br>
+			<br>
 			<input id="weight" class="form-control"  ng-model="newAssess.weight" placeholder="Weight" required>
 	
         </div>
