@@ -1,0 +1,98 @@
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #D1DEF1;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.navbar {
+    background-color: #fff;
+    margin: 0px 0px 30px 0px;
+}
+
+.headings {
+    /*float: left;*/
+    text-align: center;
+    margin: 10px 0px 0px 10px;
+}
+
+.logout-button {
+    float: right;
+    margin: 12px 12px 0px 0px;
+}
+
+.wrapper, .row {
+    margin: auto;
+    max-width: 700px;
+}
+
+.wrapper {
+    padding: 20px;
+}
+
+.list-group-item, .panel-default > .panel-heading {
+    margin-top: 0px;
+    background-color: #dcedc8;
+}
+
+.marks {
+    background-color: #fff;
+    margin: 5px;
+}
+
+.mark, .overall-weight {
+    float: right;
+}
+
+.row {
+    margin-top: 15px;
+}
+.asmnt {
+    margin-top: 0;
+}
+
+
+.goal-input {
+    text-align: right;
+    float: right;
+    max-width: 100px;
+}
+  
+.glyphicon {
+    float: right;
+}
+
+.back-button {
+    float:left;
+    margin: 12px 0px 0px 12px;
+}
+
+.theitems {
+    background-color: #fff;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.fa-plus-circle {
+    margin-top: 20px;
+    float: right;
+    color: #ff4081;
+}
+
+.delete-button {
+    float: right;
+}
+
+.fa-minus-circle {
+    color: #ff8a65;
+    margin: 12px 12px 0px 0px;
+}
+
+.panel-group {
+    margin-bottom: 0;
+}
+
+a {
+    text-decoration: none !important;
+
+}

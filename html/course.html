@@ -1,0 +1,63 @@
+<div ng-controller="CourseCtrl">
+    <!--navigation bar-->
+    <div class="wrapper">
+        <div class="navbar">
+            <a class="glyphicon glyphicon-chevron-left back-button" ng-click="relocate()"></a>
+            <a class="delete-button" ng-click="confirmDelete()"><i class="fa fa-minus-circle fa-lg"></i></a>
+            <p class="headings">{{term}}</p>
+
+        </div>
+        <!--list all the courses-->
+        <div class="theitems" ng-repeat="course in courses track by $index | orderBy: 'name'">
+            <a class="list-group-item list-text" href="#/course/{{term}}/{{course}}">
+                {{course}}<span class="glyphicon glyphicon-chevron-right row-indicator"></span>
+            </a>
+            <!--goal list and distance from goal for a single course-->
+            <div class="goal-list">
+                <div class="row">
+                    <label class="goal-text">Goal</label>
+                <span><input class="goal-input" placeholder="{{ci['courses'][course]['goal'] | number:1}}"
+                             ng-model="goalChanger"
+                             ng-change="updateGoal(course,goalChanger)"></span>
+                </div>
+                <div class="row">
+                    <label class="goal-text">Distance from Goal</label>
+                    <span><input class="goal-input" value="{{ci['courses'][course]['distance'] | number:1}}"
+                                 disabled></span>
+                </div>
+            </div>
+        </div>
+        <div ng-hide="courses.length">
+        </div>
+        <!--add assessment button-->
+        <div class="add-entry" ng-click="open()">
+            <i class="fa fa-plus-circle fa-3x"></i>
+        </div>
+        <!--delete button-->
+        <!--<div class="delete-div" ng-click="confirmDelete()">-->
+            <!--<a class="delete-button">Delete</a>-->
+        <!--</div>-->
+    </div>
+    <script type="text/ng-template" id="addCourse.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Add a course</h3>
+        </div>
+        <div class="modal-body">
+            <input class="form-control" ng-model="course.name" placeholder="Course name" required>
+            <input class="form-control" ng-model="course.goal" placeholder="Goal" required>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="confirmDeleteTerm.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Are you sure to delete the term?</h3>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="no()">No</button>
+            <button type="button" class="btn btn-primary" ng-click="yes()">Yes</button>
+        </div>
+    </script>
+</div>

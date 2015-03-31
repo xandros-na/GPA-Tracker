@@ -1,0 +1,24 @@
+<style type="text/css">
+	#passwordMessage{
+		color:red;
+	}
+	
+	.switch-button{
+		position: absolute;
+		margin-top: 10px;
+		font-size: 120%
+	}
+	
+</style>
+<div  ng-controller="SignInFormCtrl">
+	<form ng-submit="submitForm(user)" class="form-signin">
+		<h2 class="form-signin-heading">{{title}}</h2>
+		<input type="username" ng-model="user.name" class="form-control" placeholder="Username" required autofocus>
+		<input type="password" ng-model="user.password" class="form-control" placeholder="Password" required>
+        <div ng-hide="!(switch==='Sign In')">
+		<input type="password" ng-model="user.repassword"  class="form-control" placeholder="Re-enter password"><span id="passwordMessage" ng-hide=(user.password==user.repassword)>Does not match the previous entry</span>
+		</div>
+		<input class="btn btn-lg btn-primary btn-block sign-button" type="submit" value={{submitButton}} ng-model="submitButton">
+		<a class="switch-button" ng-click="contentSwitch()">{{switch}}</a>
+	</form>
+</div>
