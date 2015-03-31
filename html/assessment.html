@@ -9,13 +9,14 @@
 	 <accordion close-others="oneAtATime">
         <accordion-group class="theitems" ng-repeat="assessment in assessments" is-open="status.open">
 				<accordion-heading >
-					{{assessment}}
-					<span style="float:right;" class="overall-weight">
+					<div class="row asmnt">{{assessment}}
+					<span class="overall-weight">
 					<label>Overall: </label>
 					<a>{{ai[assessment]['overall'] | number:1}}</a>
 					<label>Weight: </label>
 					<a>{{ai[assessment]['weight'] | number:1}}</a>
 					</span>
+                        </div>
 					
 				</accordion-heading>
 

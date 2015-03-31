@@ -40,12 +40,15 @@ body {
     margin: 5px;
 }
 
-.mark {
+.mark, .overall-weight {
     float: right;
 }
 
 .row {
     margin-top: 15px;
+}
+.asmnt {
+    margin-top: 0;
 }
 
 
