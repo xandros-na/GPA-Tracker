@@ -3,7 +3,7 @@ var trackerApp = angular.module('tracker', [
     'ngRoute',
     'trackerAppControllers'
 ]);
-
+var opened = false;  
 trackerApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -27,8 +27,11 @@ trackerApp.config(['$routeProvider',
                 templateUrl: 'html/assessment.html',
                 controller: 'AssessmentsCtrl'
             }).
-            otherwise({
+            when('/', {
                 redirectTo: '/login'
             });
+            //otherwise({
+            //   redirectTo: '/login'
+            //});
 
     }]);
