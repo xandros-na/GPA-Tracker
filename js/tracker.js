@@ -3,7 +3,7 @@ var trackerApp = angular.module('tracker', [
     'ngRoute',
     'trackerAppControllers'
 ]);
-var opened = false;  
+var opened = false;
 trackerApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -31,8 +31,25 @@ trackerApp.config(['$routeProvider',
                 redirectTo: '/login'
             }).
             otherwise({
-               //controller: '404Ctrl',
-               templateUrl: 'html/404.html'
+                //controller: '404Ctrl',
+                templateUrl: 'html/404.html'
             });
 
     }]);
+
+trackerApp.run(function ($rootScope, $location) { //Insert in the function definition the dependencies you need.
+    //Do your $on in here, like this:
+    $rootScope.$on("$locationChangeStart", function (event, next, current) {
+        var to = (next.substring($location.absUrl().length - $location.url().length));
+        var from = (current.substring($location.absUrl().length - $location.url().length));
+
+        if ((to != '/login' && from == '/login') && typeof localStorage['token'] == 'undefined') {
+            window.history.go(-2);
+            console.log(window.history);
+            event.preventDefault();
+
+        } else {
+
+        }
+    });
+});

@@ -3,6 +3,7 @@ var trackerAppControllers = angular.module('trackerAppControllers', []);
 var logout_opened = false;
 trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", function ($scope, $location) {
     logout_opened = false;
+    console.log(localStorage['token']);
     $scope.title = "Sign In";
     $scope.submitButton = "Sign In";
     $scope.switch = "I don't have an account yet.";
@@ -57,7 +58,6 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
                 }
             });
         }
-
     };
 
     $scope.contentSwitch = function () {
@@ -118,7 +118,6 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
 
     $scope.logoutUser = function () {
 		var username = JSON.parse(localStorage['token']);
-        console.log(username);
         var stuff = JSON.parse(localStorage['gpa_user']);
         var d = JSON.stringify({'data': {'gpa_user': stuff}});
 
@@ -156,7 +155,7 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
         var to = (newUrl.substring($location.absUrl().length - $location.url().length));
         var from = (oldUrl.substring($location.absUrl().length - $location.url().length));
-        if (from == '/term' && to == '/login' && !logout_opened) {
+        if (to == '/login' && !logout_opened) {
             $scope.logOut();
             event.preventDefault();
             logout_opened = true;
