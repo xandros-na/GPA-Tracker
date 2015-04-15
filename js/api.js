@@ -531,23 +531,25 @@ function get_marks(term, course, assessment) {
 
     var term_details = terms[term];
     var courses = term_details['courses'];
-    if (!(course in courses)) {
-        return 'no such course';
+    if (courses!=null) {
+        if (!(course in courses)) {
+            return 'no such course';
+        }
+
+        var course_info = courses[course]; //{'goal': 0, 'distance': 0, 'details':null or Object}
+        var assessments = course_info['details']; //{null or 'quizzes': Object}
+
+        if (assessments == null || !(assessment in assessments)) {
+            return 'no such assessment';
+        }
+
+        var as_details = assessments[assessment];
+        if (as_details['list'] == null) {
+            return [];
+        }
+
+        return as_details['list'];
     }
-
-    var course_info = courses[course]; //{'goal': 0, 'distance': 0, 'details':null or Object}
-    var assessments = course_info['details']; //{null or 'quizzes': Object}
-
-    if (assessments == null || !(assessment in assessments)) {
-        return 'no such assessment';
-    }
-
-    var as_details = assessments[assessment];
-    if (as_details['list'] == null) {
-        return [];
-    }
-
-    return as_details['list'];
 }
 
 function _update_overall(list, as_details) {
@@ -579,16 +581,17 @@ function _calc_distance(assessments, course_info) {
 
 function _update_gpa(termObj) {
 	var courses = termObj['courses'];
-	var keyCourses = Object.keys(courses);
-	var numCourses = keyCourses.length;
-	
-	var total = 0;
-	
-	for (var i = 0; i < numCourses; i++) {
-		
-		total += parseFloat(courses[keyCourses[i]]['goal']) - parseFloat(courses[keyCourses[i]]['distance']);
-	}
-	console.log(total);
-	return total / numCourses;
-	
+    if (courses != null) {
+        var keyCourses = Object.keys(courses);
+        var numCourses = keyCourses.length;
+
+        var total = 0;
+
+        for (var i = 0; i < numCourses; i++) {
+
+            total += parseFloat(courses[keyCourses[i]]['goal']) - parseFloat(courses[keyCourses[i]]['distance']);
+        }
+        console.log(total);
+        return total / numCourses;
+    }
 }
