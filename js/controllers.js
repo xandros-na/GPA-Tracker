@@ -141,6 +141,7 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
     };
 
     $scope.logOut = function () { //adding a term
+        logout_opened = true;
         var modalInstance = $modal.open({
             templateUrl: 'logOut.html',
             controller: 'logOutCtrl',
@@ -154,9 +155,8 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
     
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
         var to = (newUrl.substring($location.absUrl().length - $location.url().length));
-        var from = (oldUrl.substring($location.absUrl().length - $location.url().length));  
+        var from = (oldUrl.substring($location.absUrl().length - $location.url().length));
         if (from == '/term' && to == '/login' && !logout_opened) {
-           
             $scope.logOut();
             event.preventDefault();
             logout_opened = true;
