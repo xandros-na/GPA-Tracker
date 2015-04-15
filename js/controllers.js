@@ -40,12 +40,18 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
                     $scope.$apply(function () {
                         $location.path('term');
                     });
-                }
+                }, error: function() {
+                alert("Please check your internet connection");
+            }
             });
         }
         else {
             //check with server and create profile
-            var creds = JSON.stringify({'username': user.name, 'password': user.password, 'data': {'gpa_user': 'null'}});
+            var creds = JSON.stringify({
+                'username': user.name,
+                'password': user.password,
+                'data': {'gpa_user': 'null'}
+            });
             $.ajax({
                 url: 'http://cp317api.pythonanywhere.com/api/register',
                 data: creds,
@@ -54,8 +60,11 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
                 dataType: 'json',
                 success: function (data) {
                     localStorage['token'] = JSON.stringify(data['token']);
-					alert("Registration successful!");
-                }
+                    alert("Registration successful!");
+                }, error: function() {
+                alert("Please check your internet connection");
+            }
+
             });
         }
     };
@@ -77,7 +86,7 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
 
 function openModal(result, templateUrl, controller, modal) {
     if (result.indexOf("exists") > -1) {
-            var modalInstance = modal.open({
+        var modalInstance = modal.open({
             templateUrl: templateUrl,
             controller: controller,
             size: "sm",
@@ -104,7 +113,7 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
     };
 
     $scope.updateTerm = function () {
-        var result = add_term($scope.termInfo.name, $scope.termInfo.goal); 
+        var result = add_term($scope.termInfo.name, $scope.termInfo.goal);
         $scope.terms = get_terms(); //[2014, 2015]
         $scope.ti = JSON.parse(localStorage['gpa_user']);
         openModal(result, "noTerm.html", "addTermCtrl", $modal);
@@ -117,7 +126,7 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
     };
 
     $scope.logoutUser = function () {
-		var username = JSON.parse(localStorage['token']);
+        var username = JSON.parse(localStorage['token']);
         var stuff = JSON.parse(localStorage['gpa_user']);
         var d = JSON.stringify({'data': {'gpa_user': stuff}});
 
@@ -132,11 +141,14 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
             },
             success: function (data) {
                 console.log(data);
+                delete localStorage['gpa_user'];
+                delete localStorage['token'];
+                $location.path('login');
+            }, error: function() {
+                alert("Please check your internet connection");
             }
         });
-        delete localStorage['gpa_user'];
-        delete localStorage['token'];
-        $location.path('login');
+
     };
 
     $scope.logOut = function () { //adding a term
@@ -151,20 +163,21 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "
             $scope.logoutUser();
         });
     };
-    
+
     $scope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
         var to = (newUrl.substring($location.absUrl().length - $location.url().length));
         var from = (oldUrl.substring($location.absUrl().length - $location.url().length));
         if (to == '/login' && !logout_opened) {
             $scope.logOut();
             event.preventDefault();
-            logout_opened = true;
+            //logout_opened = true;
         }
     });
 }]);
 
 trackerAppControllers.controller('logOutCtrl', function ($scope, $modalInstance, $routeParams) {
     $scope.cancel = function () {
+        logout_opened = false;
         $modalInstance.dismiss('cancel');
     };
 
@@ -184,13 +197,13 @@ trackerAppControllers.controller('addTermCtrl', function ($scope, $modalInstance
 });
 
 
-trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", "$location" , "$modal", function ($scope, $routeParams, $location, $modal) {
+trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", "$location", "$modal", function ($scope, $routeParams, $location, $modal) {
     //get termName
     $scope.term = $routeParams.termName;
     //get course list from DB
     $scope.courses = get_courses($scope.term);
     if ($scope.courses == "no such term") {
-        $location.path('/404/'+$scope.courses).replace();
+        $location.path('/404/' + $scope.courses).replace();
     }
     $scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
     $scope.open = function () { //adding a term
@@ -442,5 +455,5 @@ trackerAppControllers.controller('newAssessmentCtrl', function ($scope, $modalIn
 
 trackerAppControllers.controller('404Ctrl', function ($scope, $location) {
     $scope.items = $location.url().substring(5, $location.url().length).replace(/%20/gi, ' ');
-    
+
 });
