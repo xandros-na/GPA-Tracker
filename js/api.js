@@ -234,7 +234,7 @@ function add_assessment(term, course, name, weight) {
     var assessments = course_info['details']; //{null or 'quizzes': Object}
 
     if(assessments != null && name in assessments) {
-        return 'name already used';
+        return 'assessment exists';
     }
 
     var as_details = {};

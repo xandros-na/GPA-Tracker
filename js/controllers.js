@@ -74,7 +74,18 @@ trackerAppControllers.controller("SignInFormCtrl", ["$scope", "$location", funct
     };
 }]);
 
-trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", function ($scope, $modal, $location) {
+
+function openModal(result, templateUrl, controller, modal) {
+    if (result.indexOf("exists") > -1) {
+            var modalInstance = modal.open({
+            templateUrl: templateUrl,
+            controller: controller,
+            size: "sm",
+        });
+    }
+}
+
+trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", "$window", function ($scope, $modal, $location, $window) {
     //get term list from DB
 
     $scope.terms = get_terms(); //[2014, 2015]
@@ -93,9 +104,10 @@ trackerAppControllers.controller("TermCtrl", ["$scope", "$modal", "$location", f
     };
 
     $scope.updateTerm = function () {
-        add_term($scope.termInfo.name, $scope.termInfo.goal);
+        var result = add_term($scope.termInfo.name, $scope.termInfo.goal); 
         $scope.terms = get_terms(); //[2014, 2015]
         $scope.ti = JSON.parse(localStorage['gpa_user']);
+        openModal(result, "noTerm.html", "addTermCtrl", $modal);
     };
 
     $scope.updateGoal = function (term, goalChanger) {
@@ -178,6 +190,9 @@ trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", "$loca
     $scope.term = $routeParams.termName;
     //get course list from DB
     $scope.courses = get_courses($scope.term);
+    if ($scope.courses == "no such term") {
+        $location.path('/404/'+$scope.courses).replace();
+    }
     $scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
     $scope.open = function () { //adding a term
         var modalInstance = $modal.open({
@@ -192,9 +207,10 @@ trackerAppControllers.controller("CourseCtrl", ["$scope", "$routeParams", "$loca
     };
 
     $scope.updateCourse = function () {
-        add_course($scope.term, $scope.courseInfo.name, $scope.courseInfo.goal);
+        var result = add_course($scope.term, $scope.courseInfo.name, $scope.courseInfo.goal);
         $scope.courses = get_courses($scope.term);
         $scope.ci = JSON.parse(localStorage['gpa_user'])[$scope.term];
+        openModal(result, "noCourse.html", "addCourseCtrl", $modal)
     };
 
     $scope.updateGoal = function (course, goalChanger) {
@@ -286,10 +302,11 @@ trackerAppControllers.controller("AssessmentsCtrl", ["$scope", "$modal", "$route
 
     $scope.updateAssessment = function () {
 
-        add_assessment($scope.term, $scope.course, $scope.newAssessment.name, $scope.newAssessment.weight);
+        var result = add_assessment($scope.term, $scope.course, $scope.newAssessment.name, $scope.newAssessment.weight);
         $scope.assessments = Object.keys(get_assessments($scope.term, $scope.course));
         var x = JSON.parse(localStorage['gpa_user']);
         $scope.ai = x[$scope.term]['courses'][$scope.course]['details'];
+        openModal(result, "noAssessment.html", "newAssessmentCtrl", $modal);
     };
 
     $scope.addMark = function (size, assessment) {
@@ -424,4 +441,7 @@ trackerAppControllers.controller('newAssessmentCtrl', function ($scope, $modalIn
 });
 
 
-
+trackerAppControllers.controller('404Ctrl', function ($scope, $location) {
+    $scope.items = $location.url().substring(5, $location.url().length).replace(/%20/gi, ' ');
+    
+});

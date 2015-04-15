@@ -29,9 +29,10 @@ trackerApp.config(['$routeProvider',
             }).
             when('/', {
                 redirectTo: '/login'
+            }).
+            otherwise({
+               //controller: '404Ctrl',
+               templateUrl: 'html/404.html'
             });
-            //otherwise({
-            //   redirectTo: '/login'
-            //});
 
     }]);
